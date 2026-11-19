@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SABAI jet ski</title>
+<meta name="description" content="SABAI jet ski: your riding, your role, today's session and the records.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0F2A44">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Jet ski">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F2A44'/%3E%3Cpath d='M6 20c5-1 9-6 14-6 3 0 5 1 6 3l-3 3H6z' fill='%23fff'/%3E%3Cpath d='M5 24c4 1 8-1 11 0s7 1 11 0' stroke='%23F2C14E' stroke-width='2' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+/* SABAI's look from the posters and the Practical Guide (build plan, "Look and feel"): paper, deep navy and gold,
+   Source Serif for headings and reading, Inter for everything you tap. Large type and buttons for the swim platform. */
+:root{
+  --paper:#FBF8F3; --card:#FFFFFF; --deep:#0F2A44; --deep2:#1B3D5E; --gold:#F2C14E; --sea:#0F4C81; --rust:#C2410C; --sand:#E7DDCC; --sand2:#F3ECE0;
+  --ink:#14202E; --muted:#5B6875; --hair:rgba(15,42,68,.10); --hair2:rgba(15,42,68,.22);
+  --ok:#2F7D4F; --oksoft:#E3F1E8; --warn:#93600B; --warnsoft:#FBEFD5; --bad:#A3201C; --badsoft:#F8E4E1; --info:#1F6FB8; --infosoft:#E2EDF8;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --sans:Inter,-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,"Segoe UI",Roboto,sans-serif;
+  --lift:0 1px 2px rgba(15,42,68,.06),0 8px 24px rgba(15,42,68,.07);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;color:var(--ink);font:400 17px/1.5 var(--sans);-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;background:var(--paper);min-height:100vh}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+a{color:var(--sea)}
+img{max-width:100%;display:block}
+.hidden{display:none!important}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+.small{font-size:14.5px;color:var(--muted)}
+
+/* top bar */
+.bar{position:sticky;top:0;z-index:20;background:var(--deep);color:#fff;padding:calc(8px + env(safe-area-inset-top)) 0 8px}
+.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:40px}
+.logo{display:inline-block;height:15px;line-height:0;color:#fff}
+.logo svg{height:100%;width:auto}
+.me{display:flex;align-items:center;gap:10px;font:600 14.5px/1.2 var(--sans);min-width:0}
+.me span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tag{display:inline-block;font:700 11.5px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:6px 9px}
+.tag.test{background:var(--gold);color:var(--deep)}
+.tag.ipad{background:#fff;color:var(--deep)}
+
+/* hero: the part's picture with what to do next */
+.hero{position:relative;background:var(--deep) center 35%/cover no-repeat;color:#fff;min-height:250px;display:flex;align-items:flex-end}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,42,68,.10) 0%,rgba(15,42,68,.50) 42%,rgba(10,25,45,.93) 100%)}
+.hero .wrap{position:relative;width:100%;padding-top:44px;padding-bottom:24px}
+.kicker{font:700 12.5px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+.hero h1{font:600 34px/1.12 var(--serif);letter-spacing:-.01em;margin:0 0 8px}
+.hero .next{font:500 18.5px/1.4 var(--sans);margin:0;max-width:640px}
+.hero .btn{margin-top:16px}
+
+/* part tabs */
+.tabs{position:sticky;top:calc(56px + env(safe-area-inset-top));z-index:15;background:var(--paper);border-bottom:1px solid var(--hair);padding:10px 0}
+.tabs .wrap{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+.tabs .wrap::-webkit-scrollbar{display:none}
+.tabs button{flex:0 0 auto;border:0;background:transparent;border-radius:999px;padding:0 16px;min-height:44px;font:600 15.5px/1 var(--sans);color:var(--muted);display:inline-flex;align-items:center;gap:8px}
+.tabs button[aria-selected=true]{background:var(--deep);color:#fff}
+.tabs .n{font:700 12px/20px var(--sans);font-style:normal;min-width:20px;padding:0 6px;border-radius:999px;background:var(--gold);color:var(--deep);text-align:center}
+
+main{padding:22px 0 60px}
+h2.sec{font:600 24px/1.2 var(--serif);margin:30px 0 12px;color:var(--deep)}
+main .wrap>h2.sec:first-child{margin-top:4px}
+.card{background:var(--card);border:1px solid var(--hair);border-radius:22px;box-shadow:var(--lift);padding:20px;margin:0 0 14px}
+.card h3{font:600 20px/1.25 var(--serif);margin:0 0 6px;color:var(--deep)}
+.card p{margin:6px 0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.grid2{display:grid;grid-template-columns:1fr;gap:0 14px}
+@media (min-width:900px){.grid2{grid-template-columns:1fr 1fr}}
+.lead{font-size:18.5px;line-height:1.5;margin:0 0 14px}
+h3.sub{font:600 21px/1.25 var(--serif);color:var(--deep);margin:24px 0 8px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:0 24px;min-height:54px;font:600 17px/1 var(--sans);text-decoration:none;transition:transform .1s;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--deep);color:#fff;box-shadow:0 8px 18px -8px rgba(15,42,68,.6)}
+.btn.gold{background:var(--gold);color:var(--deep)}
+.btn.ghost{background:var(--sand2);color:var(--deep);border:1px solid var(--hair)}
+.btn.line{background:transparent;color:var(--deep);border:1.5px solid var(--hair2)}
+.btn.small{min-height:44px;padding:0 16px;font-size:15.5px}
+.btn.wide{width:100%}
+.btn.danger{background:var(--badsoft);color:var(--bad)}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.linkbtn{background:none;border:0;padding:6px 0;color:var(--sea);font:600 15.5px/1.3 var(--sans);text-decoration:underline;text-decoration-color:var(--gold);text-decoration-thickness:2px;text-underline-offset:4px;cursor:pointer}
+
+/* status */
+.pill{display:inline-flex;align-items:center;gap:6px;font:600 13px/1 var(--sans);border-radius:999px;padding:7px 11px;background:var(--sand2);color:var(--deep);white-space:nowrap}
+.pill.ok{background:var(--oksoft);color:var(--ok)}
+.pill.warn{background:var(--warnsoft);color:var(--warn)}
+.pill.bad{background:var(--badsoft);color:var(--bad)}
+.pill.info{background:var(--infosoft);color:var(--info)}
+.note{border-radius:16px;padding:12px 16px;margin:12px 0;background:var(--sand2);font-size:15.5px}
+.note.test{background:var(--warnsoft);color:#5C3D00}
+.note.ok{background:var(--oksoft)}
+.note.info{background:var(--infosoft)}
+
+/* the steps of My role */
+.steps{list-style:none;margin:0;padding:0}
+.steps li{display:flex;gap:14px;align-items:center;padding:14px 0;border-top:1px solid var(--hair)}
+.steps li:first-child{border-top:0}
+.steps .dot{flex:0 0 34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 15px/1 var(--sans);background:var(--sand2);color:var(--deep)}
+.steps .dot.done{background:var(--ok);color:#fff}
+.steps .dot.now{background:var(--gold);color:var(--deep)}
+.steps .txt{flex:1;min-width:0}
+.steps .txt b{display:block;font-weight:600;font-size:17px}
+.steps .txt span{display:block;font-size:14.5px;color:var(--muted)}
+
+/* lists of people and records */
+.list{list-style:none;margin:0;padding:0}
+.list>li{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:14px 0;border-top:1px solid var(--hair);flex-wrap:wrap}
+.list>li:first-child{border-top:0}
+.list .who2{min-width:0;flex:1 1 220px}
+.list .who2 b{display:block;font-weight:600;font-size:17px}
+.list .who2>span{display:block;font-size:14.5px;color:var(--muted)}
+.list .acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.flags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.dayhead{font:700 12.5px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+/* flows: one thing at a time, with a progress bar */
+.flow{min-height:100vh;display:flex;flex-direction:column;background:var(--paper)}
+.fhead{position:sticky;top:0;z-index:20;background:var(--deep);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 0 12px}
+.fhead .wrap{max-width:800px}
+.fhead .top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.fhead .t{font:600 15px/1.2 var(--sans);opacity:.9}
+.fhead .x{background:rgba(255,255,255,.14);border:0;color:#fff;border-radius:999px;padding:0 16px;min-height:40px;font:600 15px/1 var(--sans)}
+.prog{display:flex;gap:4px;margin-top:12px}
+.prog i{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.22)}
+.prog i.on{background:var(--gold)}
+.prog i.done{background:#fff}
+.plabel{display:flex;justify-content:space-between;font:600 13px/1 var(--sans);margin-top:9px;opacity:.85}
+.fbody{flex:1;padding:26px 0 30px}
+.fbody .wrap{max-width:800px}
+.fbody h2{font:600 30px/1.15 var(--serif);color:var(--deep);margin:0 0 14px;letter-spacing:-.01em}
+.fbody>.wrap>p,.statement li,.statement p{font-size:18px;line-height:1.55}
+.statement{background:var(--card);border:1px solid var(--hair);border-radius:20px;padding:6px 22px;box-shadow:var(--lift);margin:0 0 16px}
+.statement ol,.statement ul{padding-left:22px;margin:12px 0}
+.statement li{margin:0 0 10px}
+.dock{position:sticky;bottom:0;background:linear-gradient(180deg,rgba(251,248,243,0),var(--paper) 28%);padding:18px 0 calc(14px + env(safe-area-inset-bottom));z-index:10}
+.dock .wrap{max-width:800px;display:flex;gap:12px}
+.dock .btn.primary{flex:1}
+
+/* fields */
+.fld{margin:0 0 18px}
+.fld>label,.fld>.lab{display:block;font:600 15.5px/1.35 var(--sans);color:var(--ink);margin:0 0 8px}
+.inp{width:100%;border:1.5px solid var(--hair2);border-radius:16px;background:#fff;padding:12px 16px;font-size:18px;min-height:56px;-webkit-appearance:none;appearance:none}
+textarea.inp{min-height:110px;resize:vertical;line-height:1.45}
+select.inp{background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' stroke='%230F2A44' stroke-width='2' fill='none'/%3E%3C/svg%3E") right 18px center no-repeat;padding-right:44px}
+.inp:focus{outline:none;border-color:var(--sea);box-shadow:0 0 0 4px rgba(15,76,129,.15)}
+.inp[readonly]{background:var(--sand2)}
+.fld.bad .inp,.fld.bad .chips{box-shadow:0 0 0 3px var(--badsoft);border-color:var(--bad);border-radius:16px}
+.fields{display:grid;grid-template-columns:1fr;gap:0 16px}
+@media (min-width:700px){.fields{grid-template-columns:1fr 1fr}.fields .full{grid-column:1/-1}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--hair2);background:#fff;border-radius:999px;padding:0 18px;min-height:50px;font:600 16.5px/1 var(--sans);color:var(--deep)}
+.chip[aria-pressed=true]{background:var(--deep);border-color:var(--deep);color:#fff}
+.chip.yes[aria-pressed=true]{background:var(--rust);border-color:var(--rust)}
+.withnow{display:flex;gap:8px}
+.withnow .inp{flex:1}
+.hq{border-top:1px solid var(--hair);padding:16px 0;margin:0}
+.hq:first-child{border-top:0;padding-top:4px}
+.hq .q{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.hq .q b{font-weight:500;font-size:18px;flex:1 1 300px}
+.hq textarea{margin-top:12px}
+
+/* initials and signatures */
+.initial{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:var(--sand2);border-radius:20px;padding:16px 18px;margin:18px 0 0}
+.initial p{margin:0;flex:1 1 240px;font-size:16.5px}
+.stamp{display:inline-flex;align-items:center;gap:10px;border:2px solid var(--ok);color:var(--ok);border-radius:14px;padding:8px 14px;font:700 17px/1.2 var(--sans);transform:rotate(-2deg)}
+.stamp small{font-weight:500;font-size:13.5px;color:var(--muted)}
+.sigblock{background:var(--card);border:1px solid var(--hair);border-radius:20px;padding:16px;box-shadow:var(--lift);margin:16px 0}
+.sigblock h4{font:700 12.5px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--sea);margin:2px 0 10px}
+.sighead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 8px;font-size:15.5px}
+.sigpad{position:relative;height:190px;border-radius:16px;background:#fff;border:1.5px dashed var(--hair2);overflow:hidden;touch-action:none}
+.sigpad canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
+.sigpad .line{position:absolute;left:20px;right:20px;bottom:44px;border-bottom:1.5px solid #C9D0D7;pointer-events:none}
+.sigpad .hint{position:absolute;left:20px;bottom:16px;font-size:14px;color:#7B8692;pointer-events:none}
+.sigpad.inked .hint{display:none}
+.sigpad.bad{border-color:var(--bad);border-style:solid}
+.when{font-size:14px;color:var(--muted);margin:8px 0 0}
+.sigimg{height:64px;width:auto;background:#fff;border-radius:8px;border:1px solid var(--hair)}
+
+/* the manual on screen: the classes come from the manual's own builder */
+.manual{font:400 18.5px/1.6 var(--serif);color:var(--ink)}
+.manual h2{font:600 24px/1.25 var(--serif);color:var(--deep);margin:28px 0 10px}
+.manual h3{font:600 19px/1.3 var(--serif);color:var(--deep);margin:22px 0 8px}
+.manual p{margin:0 0 12px}
+.manual ul,.manual ol{padding-left:24px;margin:0 0 14px}
+.manual li{margin:0 0 8px}
+.manual ol.num{list-style:none;padding:0}
+.manual ol.num li{display:flex;gap:12px;margin:0 0 12px}
+.manual ol.num .n{flex:0 0 28px;height:28px;border-radius:50%;background:var(--deep);color:#fff;font:700 13px/28px var(--sans);text-align:center;margin-top:2px}
+.manual .who{display:inline-block;font:700 12px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--sea);margin-right:4px}
+.manual .rule{background:var(--deep);color:#fff;border-left:6px solid var(--gold);border-radius:12px;padding:14px 18px;margin:14px 0}
+.manual .rule p{margin:0;font:600 17px/1.45 var(--sans)}
+.manual table.t{width:100%;border-collapse:collapse;font:400 15.5px/1.45 var(--sans);margin:8px 0 16px;background:#fff}
+.manual table.t th{background:var(--deep);color:#fff;text-align:left;padding:9px 10px;font-weight:600;font-size:14px}
+.manual table.t td{border-bottom:1px solid var(--hair);padding:9px 10px;vertical-align:top}
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.manual .sigs{display:grid;grid-template-columns:1fr;gap:12px}
+@media (min-width:700px){.manual .sigs{grid-template-columns:1fr 1fr}}
+.manual .sig{display:flex;gap:12px;background:#fff;border:1px solid var(--hair);border-radius:16px;padding:10px}
+.manual .sig img{width:110px;border-radius:10px}
+.manual .sig h3{font:600 17px/1.2 var(--serif);margin:4px 0}
+.manual .sig p{font-size:14.5px;margin:0}
+.manual ul.formlist{list-style:none;padding:0}
+.manual ul.formlist li{padding:8px 0;border-top:1px solid var(--hair);font-size:16px}
+.manual figure.rya{margin:0}
+.manual figure.rya img{border:1px solid var(--hair);border-radius:8px}
+.manual figcaption{font-size:14px;color:var(--muted)}
+.secno{font:700 13px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--rust);margin:0 0 8px}
+
+/* posters and pictures */
+.posters{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin:12px 0 4px}
+.poster{border:0;background:#fff;border-radius:14px;padding:6px;box-shadow:var(--lift);text-align:left}
+.poster img{border-radius:9px;aspect-ratio:210/297;object-fit:cover;width:100%}
+.poster span{display:block;font:600 13.5px/1.3 var(--sans);color:var(--deep);padding:8px 4px 4px}
+.sigpics{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0}
+@media (min-width:700px){.sigpics{grid-template-columns:repeat(4,1fr)}}
+.sigpics figure{margin:0;background:#fff;border-radius:14px;padding:6px;border:1px solid var(--hair)}
+.sigpics img{border-radius:9px}
+.sigpics figcaption{font:600 13.5px/1.3 var(--sans);padding:6px 4px 2px;color:var(--deep)}
+
+/* the rider pass */
+.pass{background:linear-gradient(160deg,#13385B,#0F2A44 60%);color:#fff;border-radius:24px;padding:20px;box-shadow:0 18px 40px -16px rgba(15,42,68,.6);max-width:520px;margin:0 0 14px}
+.pass .ph{width:96px;height:120px;border-radius:14px;object-fit:cover;background:#2A4A6B;flex:0 0 96px}
+.pass .top{display:flex;justify-content:space-between;align-items:center;font:700 12px/1 var(--sans);letter-spacing:.14em;color:var(--gold);margin-bottom:16px}
+.pass .body{display:flex;gap:16px}
+.pass dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:15px}
+.pass dt{color:rgba(255,255,255,.7)}
+.pass dd{margin:0;font-weight:600}
+.pass .nm{font:600 22px/1.2 var(--serif);margin:0 0 8px}
+.pass .fine{font-size:13px;line-height:1.45;color:rgba(255,255,255,.8);margin:14px 0 0}
+.pass .ship{display:block;width:100%;margin:16px 0 0;opacity:.6}
+.pass.out{filter:grayscale(.7)}
+.photo{width:120px;height:150px;object-fit:cover;border-radius:16px;border:1px solid var(--hair);background:var(--sand2);flex:0 0 120px}
+.filebtn{position:relative;overflow:hidden}
+.filebtn input{position:absolute;inset:0;opacity:0;font-size:100px;cursor:pointer}
+
+/* tables and tick lists */
+.tbl{width:100%;border-collapse:collapse;font-size:15px}
+.tbl th{text-align:left;font:600 12.5px/1.2 var(--sans);color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding:8px;border-bottom:1.5px solid var(--hair2)}
+.tbl td{padding:10px 8px;border-bottom:1px solid var(--hair);vertical-align:top}
+.ticks2{list-style:none;padding:0;margin:0}
+.ticks2 li{border-top:1px solid var(--hair)}
+.ticks2 li:first-child{border-top:0}
+.ticks2 button{display:flex;gap:14px;align-items:flex-start;width:100%;background:none;border:0;text-align:left;padding:14px 0;font-size:16.5px;line-height:1.45}
+.box{flex:0 0 30px;height:30px;border-radius:9px;border:2px solid var(--hair2);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;margin-top:-2px;background:#fff}
+.ticks2 button[aria-pressed=true] .box{background:var(--ok);border-color:var(--ok)}
+.ticks2 button[aria-pressed=true] .box::after{content:"\2713"}
+.ticks2 .notfor{opacity:.4}
+.moving{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:var(--infosoft);border-radius:18px;padding:14px 16px;margin:0 0 12px}
+.moving b{font-size:18px}
+.sw{display:inline-flex;align-items:center;gap:10px;cursor:pointer}
+.sw input{-webkit-appearance:none;appearance:none;position:relative;width:51px;height:31px;margin:0;border-radius:999px;background:var(--hair2);cursor:pointer;flex:0 0 51px}
+.sw input::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:transform .2s}
+.sw input:checked{background:#2FA36B}
+.sw input:checked::after{transform:translateX(20px)}
+.linktext{font:13px/1.4 ui-monospace,Menlo,monospace;word-break:break-all;background:var(--sand2);border-radius:12px;padding:10px 12px;margin:8px 0}
+details>summary{list-style:none;cursor:pointer}
+details>summary::-webkit-details-marker{display:none}
+
+/* sheets (pop-ups) */
+.sheet{position:fixed;inset:0;z-index:45;display:flex;align-items:flex-end;justify-content:center;background:rgba(15,42,68,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.sheet .panel{position:relative;width:100%;max-width:720px;max-height:calc(100% - 16px - env(safe-area-inset-top));overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--paper);border-radius:28px 28px 0 0;box-shadow:0 -12px 40px rgba(0,0,0,.25);padding:12px 22px calc(22px + env(safe-area-inset-bottom))}
+.sheet .grab{width:44px;height:5px;border-radius:3px;background:var(--hair2);margin:0 auto 14px}
+.sheet h2{font:600 26px/1.2 var(--serif);color:var(--deep);margin:0 90px 10px 0}
+.sheet .x{position:absolute;top:14px;right:14px;border:0;background:var(--sand2);border-radius:999px;min-height:40px;padding:0 14px;font:600 15px/1 var(--sans);color:var(--deep)}
+@media (min-width:700px){.sheet{align-items:center;padding:24px}.sheet .panel{border-radius:28px;padding:22px 28px 26px}.sheet .grab{display:none}}
+.facts{display:grid;grid-template-columns:minmax(120px,40%) 1fr;margin:8px 0 14px;background:#fff;border:1px solid var(--hair);border-radius:16px;overflow:hidden}
+.facts dt,.facts dd{margin:0;padding:9px 12px;border-top:1px solid var(--hair);font-size:15px}
+.facts dt{color:var(--muted)}
+.facts dd{font-weight:600;overflow-wrap:anywhere}
+.facts dt:first-of-type,.facts dt:first-of-type+dd{border-top:0}
+
+.toast{position:fixed;left:50%;bottom:calc(28px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--deep);color:#fff;padding:13px 20px;border-radius:18px;font-size:15.5px;font-weight:500;text-align:center;z-index:80;max-width:calc(100% - 32px);box-shadow:0 12px 30px -12px rgba(0,0,0,.5)}
+.busy{position:fixed;inset:0;background:rgba(251,248,243,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:70;text-align:center;padding:24px}
+.busy p{font:600 22px/1.3 var(--serif);color:var(--deep);margin:16px 0 0}
+.spin{width:40px;height:40px;border-radius:50%;border:3px solid var(--hair2);border-top-color:var(--deep);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.viewer{position:fixed;inset:0;background:rgba(8,18,30,.95);z-index:65;overflow:auto;padding:calc(64px + env(safe-area-inset-top)) 12px 20px}
+.viewer img{margin:0 auto;max-width:min(100%,900px);border-radius:10px;background:#fff}
+.viewer .close{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;background:#fff;border:0;border-radius:999px;padding:12px 18px;font:600 15px/1 var(--sans);color:var(--deep)}
+.loading{min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:var(--muted)}
+.loading .logo{color:var(--deep);height:22px}
+@media (max-width:600px){.hero h1{font-size:28px}.hero{min-height:220px}.fbody h2{font-size:26px}.wrap{padding:0 16px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"><div class="loading"><div class="spin"></div></div></div>
+<script>
+var JETSKI_API = 'https://script.google.com/macros/s/AKfycbxAcE758JYVYtB8CuQdmztqyC-Y9YyufID6TE6IPT1oa47WMaSHfKcOryyjGA2Zlj0usA/exec';
+var LOGO_SVG = '<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="60.0 -20.0 2975.0 690.0"><path fill="currentColor" d="M239 670C447 670 521 536 521 448C521 275 249 278 249 166C249 115 291 62 375 62C429 62 490 82 512 129H522L533 21C490 0 430 -10 375 -10C193 -10 101 89 101 201C101 382 372 370 372 488C372 540 326 597 233 597C153 597 95 567 72 524H62L60 630C103 653 159 670 239 670ZM1131 340 1031 -20C1020 -10 960 24 905 30L762 340C625 633 614 640 560 650L559 660H745L746 650C723 646 716 640 718 625C719 607 746 543 787 452H1020C1047 548 1061 601 1059 620C1057 637 1045 646 1024 650L1023 660H1258L1259 650C1216 640 1207 618 1131 340ZM819 379 837 340 932 128 990 340C994 354 997 367 1000 379ZM1756 290C1843 254 1879 194 1879 133C1879 51 1803 0 1669 0H1394L1393 10C1462 20 1459 50 1430 330C1400 610 1397 640 1326 650L1325 660H1647C1843 660 1904 530 1904 446C1904 355 1840 306 1756 290ZM1649 66C1720 66 1758 102 1758 158C1758 190 1745 244 1694 283H1686H1569L1592 66ZM1627 594H1594C1537 594 1540 567 1559 380L1562 349H1617C1717 349 1760 389 1760 454C1760 504 1743 594 1627 594ZM2497 340 2397 -20C2386 -10 2326 24 2271 30L2128 340C1991 633 1980 640 1926 650L1925 660H2111L2112 650C2089 646 2082 640 2084 625C2085 607 2112 543 2153 452H2386C2413 548 2427 601 2425 620C2423 637 2411 646 2390 650L2389 660H2624L2625 650C2582 640 2573 618 2497 340ZM2185 379 2203 340 2298 128 2356 340C2360 354 2363 367 2366 379ZM2691 660H2966L2967 650C2898 640 2901 610 2931 330C2960 50 2963 20 3034 10L3035 0H2760L2759 10C2828 20 2825 50 2796 330C2766 610 2763 640 2692 650Z"/></svg>';
+var TEXTS = {"issue":"Draft","date":"18 November 2026","status":"For the Principal's approval","forms":{"A1":{"id":"A1","title":"Staff record and declaration","blocks":[{"t":"p","text":"One record for each Principal, alternate Principal, Chief Instructor, instructor and crew supervisor. Every detail about the person is kept here. Copies of their certificates go in the centre file."},{"t":"staffcard","items":[{"label":"Name","type":"text","k":"name"},{"label":"Post and RYA role (as listed above)","type":"text","k":"post_and_rya_role_as_listed_above"},{"label":"RYA membership number","type":"text","k":"rya_membership_number"},{"label":"RYA PW Instructor certificate number","type":"text","k":"rya_pw_instructor_certificate_number"},{"label":"Instructor certificate expiry","type":"date","k":"instructor_certificate_expiry"},{"label":"Other RYA qualifications","type":"text","k":"other_rya_qualifications"},{"label":"First aid certificate (type)","type":"text","k":"first_aid_certificate_type"},{"label":"First aid expiry","type":"date","k":"first_aid_expiry"},{"label":"Safeguarding training (date)","type":"date","k":"safeguarding_training_date"},{"label":"References checked (date)","type":"date","k":"references_checked_date"},{"label":"Induction completed, Form A2 (date)","type":"date","k":"induction_completed_form_a2_date"},{"label":"Issue of this manual read","type":"text","k":"issue_of_this_manual_read"},{"label":"Joined / left (dates)","type":"text","k":"joined_left_dates"},{"label":"Signature (declaration below)","type":"sig","k":"signature_declaration_below"},{"label":"Checked by Chief Instructor","type":"text","k":"checked_by_chief_instructor"}]},{"t":"p","text":"Copy this page for more staff."},{"t":"pb"},{"t":"h","text":"Declaration"},{"t":"p","text":"I have read and understood the SABAI Personal Watercraft Operating Procedures (the issue written above), the RYA Instructor Code of Conduct and SABAI's safeguarding policy. I will follow them. I will tell the Chief Instructor at once if any of my qualifications lapse or if anything affects my fitness to instruct or supervise."},{"t":"h","text":"Principal's undertaking"},{"t":"p","text":"As Principal, or as alternate when acting as Principal, I undertake to make sure that M/Y SABAI complies with these operating procedures, the RYA checklists and the RYA's guidance; that I understand the duty of care owed to students; that the jet ski activity is insured as the RYA requires; that every member of staff follows the RYA Instructor Code of Conduct; and that I will tell the RYA before any change of Principal or Chief Instructor."},{"t":"sign","roles":["Principal","Alternate Principal","Captain (Master)"],"keys":["principal","alternate_principal","captain_master"]}]},"A2":{"id":"A2","title":"Induction","blocks":[{"t":"p","text":"Completed with everyone before they teach, supervise or take a role in a jet ski session. Circle the roles first. The person is inducted in the items for everyone and in the blocks for those roles. The Chief Instructor ticks each item when it has been explained and, where shown, demonstrated."},{"t":"fields","items":[{"label":"Name","type":"text","k":"name"},{"label":"Post","type":"text","k":"post"},{"label":"Date","type":"date","k":"date"}]},{"t":"fields","items":[{"label":"Roles: instructor / crew supervisor / chase boat driver / Chase Stew / platform hand / crane team / bridge watch","name":"Roles","type":"choice","opts":["instructor","crew supervisor","chase boat driver","Chase Stew","platform hand","crane team","bridge watch"],"multi":true,"k":"roles"}]},{"t":"h","text":"Everyone"},{"t":"ticks","items":["Where this manual is kept; posts and responsibilities (section 2); sections 4, 5 and 7 read","The session procedure and the person's part in it (section 4)","Session log and movement log (Form A7), working channel, radio checks and 30-minute check-ins","Emergency action plan card, the poster for the role (30, 31 or 32) and the person's duties in it","First aid kits, defibrillator, Jason's Cradle and fire equipment: where they are","Accident, incident and near miss reporting: deck log, HS 002 01 and Form A11 (section 7)"]},{"t":"h","text":"Instructors and crew supervisors"},{"t":"ticks","items":["How this manual is changed; RYA Instructor Code of Conduct, safeguarding and equality policies (section 9, Appendix B)","Staff record completed and certificates copied (Form A1)","Jet ski controls: start, stop, throttle, brake and reverse lever, display and its warnings, riding modes","Kill cord and spare key; demonstration that pulling the cord stops the engine","Boarding ladder, capsize recovery, towing, intake clearing (section 6, BRP guide)","Pre-use checks, fuel and fresh-water flushing","Weather limits and stopping a session","Local rules and operating areas (section 8); the site check (Form A8)","Safety briefing given to the Chief Instructor as a practice (section 5, Form A6)","MAYDAY and PAN-PAN; port call sheets","Registration and declarations (Forms A4, A5), certificates and their validity (Forms A9, A10), feedback and complaints (Form A13)","Ride check on the jet ski with the Chief Instructor"]},{"t":"pb"},{"t":"h","text":"Chase boat (instructors, chase boat drivers, Chase Stew) and crane (instructors, crane team)"},{"t":"ticks","items":["Chase boat: controls, kill cord, VHF, kit against the RYA powerboat checklist","Casualty recovery from the water to the chase boat, and the transfer to the swim platform","Towing the jet ski with the chase boat","Crane: forward crane launch and recovery, walk-through of the crane SOP"]},{"t":"h","text":"Declaration"},{"t":"p","text":"I have been inducted into the items ticked above, understood them, and can carry out the procedures for my roles."},{"t":"fields","items":[{"label":"Inducted: name and signature","type":"sig","k":"inducted_name_and_signature"},{"label":"Inducted by (Chief Instructor): name and signature","type":"sig","k":"inducted_by_chief_instructor_name_and_si"},{"label":"Date","type":"date","k":"date_2"}]}]},"A3":{"id":"A3","title":"Sign sheet","blocks":[{"t":"p","text":"Each person signs here once they have read this manual and completed the induction for their role (Form A2). Everyone signs again after each revision. The Chief Instructor's initials approve the person for the role shown."},{"t":"p","text":"Roles: Chief Instructor; instructor; crew supervisor (Powerboat Level 2 and an RYA personal watercraft course); chase boat driver (qualification checked); Chase Stew (RYA personal watercraft course); platform hand; crane team; bridge watch."},{"t":"grid","head":["Name","Post and role","Qualification for the role (number, expiry)","Issue read","Induction date (Form A2)","Signature","Chief Instructor's initials"],"keys":["name","post_and_role","qualification_for_the_role_number_expiry","issue_read","induction_date_form_a2","signature","chief_instructor_s_initials"],"rows":10}]},"A4":{"id":"A4","title":"Rider registration, health and declaration","blocks":[{"t":"p","text":"One form for each rider and passenger. Please read it all before you sign. Ask the instructor about anything that is not clear."},{"t":"h","text":"1. Your details"},{"t":"fields","items":[{"label":"Full name","type":"text","k":"full_name"},{"label":"Date of birth","type":"date","k":"date_of_birth"},{"label":"Mobile","type":"tel","k":"mobile"},{"label":"Email (for your copy of this form)","type":"email","k":"email_for_your_copy_of_this_form"}]},{"t":"fields","items":[{"label":"Nationality","type":"text","k":"nationality"},{"label":"Country of residence","type":"text","k":"country_of_residence"},{"label":"Rider type: Owner / Owner's guest / charter guest / crew","name":"Rider type","type":"choice","opts":["Owner","Owner's guest","charter guest","crew"],"multi":false,"k":"rider_type"},{"label":"Jet ski experience (none, some, a lot)","name":"Jet ski experience","type":"choice","opts":["none","some","a lot"],"k":"jet_ski_experience"}]},{"t":"fields","items":[{"label":"Boat licence or International Certificate of Competence held (type and number), if any","type":"text","k":"boat_licence_or_international_certificat"},{"label":"Can you swim at least 50 m in light clothing? Yes / No","name":"Can you swim at least 50 m in light clothing?","type":"choice","opts":["Yes","No"],"k":"can_you_swim_at_least_50_m_in_light_clot"},{"label":"Emergency contact: name and relationship","type":"text","k":"emergency_contact_name_and_relationship"},{"label":"Emergency contact: phone","type":"tel","k":"emergency_contact_phone"}]},{"t":"h","text":"2. Your health"},{"t":"p","text":"Does any of the following apply to you? If yes, give details in the table. It will not necessarily stop you riding, but the instructor must know. If you are unsure whether you are fit to ride, ask your doctor before the session."},{"t":"health","items":[{"k":"heart_condition_or_high_blood_pressure","label":"Heart condition or high blood pressure"},{"k":"epilepsy_fits_fainting_or_dizziness","label":"Epilepsy, fits, fainting or dizziness"},{"k":"diabetes","label":"Diabetes"},{"k":"asthma_or_breathing_problems","label":"Asthma or breathing problems"},{"k":"back_or_neck_problems","label":"Back or neck problems"},{"k":"injury_or_operation_in_the_last_6_months","label":"Injury or operation in the last 6 months"},{"k":"pregnancy","label":"Pregnancy"},{"k":"any_medicine_you_take_especially_one_tha","label":"Any medicine you take, especially one that may make you drowsy"},{"k":"any_other_condition_that_could_affect_yo","label":"Any other condition that could affect your safety on the water"}],"head":["Condition","Yes","No","Details if yes"]},{"t":"pb"},{"t":"h","text":"3. The rules I will follow"},{"t":"ol","items":["I will wear the impact jacket and neoprene shorts I am given whenever I am on the jet ski.","I will clip the kill cord to my impact jacket before starting, and keep it clipped on while the engine runs.","I will not ride after drinking alcohol, taking drugs, or taking medicine that affects my alertness.","I will ride only inside the area shown to me, and within sight of the chase boat.","I will keep to the speed and distance limits given in the briefing and the local rules, and keep clear of swimmers, divers, other boats, anchor chains and the shore.","I will carry only the passengers the instructor allows, never more than two, and only people who have had the briefing and wear an impact jacket.","I will never start the engine or use the throttle while anyone is in the water near the stern.","I will follow the instructions and signals of the instructor and crew, and come back at once when recalled.","I will ride only when a SABAI instructor has cleared me, only while my certificate is valid, and on the Learning Key until the instructor tells me I may use the normal key.","I will report any accident, near miss or damage to the instructor straight away."]},{"t":"h","text":"4. The risks"},{"t":"p","text":"Riding a jet ski carries risks even when every rule is followed. They include falling off; collision with another boat, an object or a person; serious injury from the water jet at the stern, including internal injury to anyone not wearing neoprene shorts; injury from the craft or its handlebars; drowning; cold, sunburn and exhaustion; and injury from fuel, heat or fire. The briefing explains how to reduce these risks, and I have been able to ask questions about them."},{"t":"h","text":"5. Declaration"},{"t":"ul","items":["The information I have given is true and complete to the best of my knowledge. I will tell the instructor if anything changes.","I am fit to take part. I can swim, and I am confident in the water wearing an impact jacket.","I have received the safety briefing, I understood it, and I agree to follow the rules in part 3.","I take part voluntarily, and I accept the risks described in part 4, which are part of the activity.","I understand that the instructor or the Captain may stop me riding at any time for my safety or the safety of others.","To the extent the law allows, SABAI, its owner, managers and crew are not liable for loss of or damage to my property, or for injury, loss or damage that results from my not following the rules in part 3 or the crew's instructions. Nothing in this form limits or excludes liability for death or personal injury caused by negligence, or any other liability that cannot be limited or excluded by law.","I agree to a photo of me being taken aboard for my certificate.","I agree that SABAI keeps the details on this form for training and safety records, and shares them only with the RYA (for my certificate), the yacht's managers (JMS), the authorities where the law requires, and the emergency services if I need help."]},{"t":"sign","roles":["Rider","Instructor (witness)"],"keys":["rider","instructor_witness"]}]},"A5":{"id":"A5","title":"Parent or guardian consent (riders under 18)","blocks":[{"t":"p","text":"Completed by a parent or legal guardian for every rider or passenger under 18, as well as Form A4."},{"t":"fields","items":[{"label":"Name of child","type":"text","k":"name_of_child"},{"label":"Date of birth","type":"date","k":"date_of_birth"},{"label":"Parent or guardian's name","type":"text","k":"parent_or_guardian_s_name"},{"label":"Relationship to the child","type":"text","k":"relationship_to_the_child"},{"label":"Phone","type":"tel","k":"phone"}]},{"t":"h","text":"Consent"},{"t":"ul","items":["I am the parent or legal guardian of the child named above.","I give my consent for the child to take part in the RYA Introduction to Personal Watercraft Safety course and in supervised jet ski riding from SABAI.","I have read Form A4 with the child. The health information given on it is correct, and the child understands and agrees to follow the rules.","I understand that the minimum age is 12, and that BRP, the jet ski's maker, recommends 16 as the minimum age to drive. On SABAI a rider aged 12 to 15 drives only on the Learning Key, with a responsible adult riding behind them and the instructor close by in the chase boat, and only where local law allows. The instructor tells me what applies where SABAI is.","The responsible adult who rides behind the child, or is present during the child's sessions, is named below.","I accept the risks described in part 4 of Form A4 on the child's behalf, on the same terms as part 5 of that form."]},{"t":"fields","items":[{"label":"Responsible adult","type":"text","k":"responsible_adult"},{"label":"Phone","type":"tel","k":"phone_2"}]},{"t":"sign","roles":["Parent or guardian","Instructor (witness)"],"keys":["parent_or_guardian","instructor_witness"]}]},"A6":{"id":"A6","title":"Safety briefing record","blocks":[{"t":"p","text":"Each rider and passenger signs before their first ride of the day, after the briefing in section 5."},{"t":"fields","items":[{"label":"Date","type":"date","k":"date"},{"label":"Place","type":"text","k":"place"},{"label":"Instructor","type":"text","k":"instructor"}]},{"t":"h","text":"Briefing given (tick each)"},{"t":"ticks","items":["Platform and stairs, what to wear, health and alcohol","Kill cord, controls, steering needs throttle, the Learning Key, the water jet","Passengers, operating area, speed and distance, lookout","Falling off, capsize, breakdown, hand signals, the rider's VHF, coming back, display warnings"]},{"t":"grid","head":["Name","Rider or passenger","\"I received and understood the briefing\": signature"],"keys":["name","rider_or_passenger","i_received_and_understood_the_briefing_s"],"rows":11}]},"A7":{"id":"A7","title":"Session log","blocks":[{"t":"p","text":"One log for each session. Kept at the swim platform during the session and filed with the deck log afterwards."},{"t":"fields","items":[{"label":"Date","type":"date","k":"date"},{"label":"Place and operating area","type":"text","k":"place_and_operating_area"},{"label":"Principal's approval (name and time)","type":"text","k":"principal_s_approval_name_and_time"}]},{"t":"fields","items":[{"label":"Supervisor","type":"text","k":"supervisor"},{"label":"Chase boat driver","type":"text","k":"chase_boat_driver"},{"label":"Chase Stew","type":"text","k":"chase_stew"}]},{"t":"fields","items":[{"label":"Bridge watch","type":"text","k":"bridge_watch"},{"label":"Platform hand","type":"text","k":"platform_hand"},{"label":"Crane team","type":"text","k":"crane_team"}]},{"t":"fields","items":[{"label":"Working channel","type":"text","k":"working_channel"},{"label":"Forecast: wind and sea","type":"text","k":"forecast_wind_and_sea"},{"label":"Visibility","type":"text","k":"visibility"}]},{"t":"fields","items":[{"label":"Fuel at launch (level and time)","type":"fuel","k":"fuel_at_launch_level_and_time"},{"label":"Fuel at recovery (level and time)","type":"fuel","k":"fuel_at_recovery_level_and_time"},{"label":"Radio check done (time)","type":"time","k":"radio_check_done_time"}]},{"t":"fields","items":[{"label":"Team briefing (time)","type":"time","k":"team_briefing_time"},{"label":"Keys signed out: Learning Key / normal key","name":"Keys signed out","type":"choice","opts":["Learning Key","normal key"],"multi":true,"k":"keys_signed_out"},{"label":"60 km/h limit set: yes / no","name":"60 km/h limit set","type":"choice","opts":["yes","no"],"multi":false,"k":"60_km_h_limit_set"}]},{"t":"h","text":"Checks before launch"},{"t":"ticks","items":["Jet ski checked against TCPW, extinguisher in place, kill cord; rider's VHF charged and tested; spare key in the chase boat","Chase boat checked (TCP), afloat and crewed; swim platform extinguisher out and checked","Riders checked on Form A9 or A10; Forms A4, A5 and A6 complete"]},{"t":"h","text":"Movement log"},{"t":"grid","head":["No.","Rider","Passenger","Time out","Time back","Fuel back","Supervisor"],"keys":["no","rider","passenger","time_out","time_back","fuel_back","supervisor"],"rows":10},{"t":"fields","items":[{"label":"Defects or kit used","type":"long","k":"defects_or_kit_used"},{"label":"Session ended (time)","type":"time","k":"session_ended_time"},{"label":"Supervisor's signature","type":"sig","k":"supervisor_s_signature"}]}]},"A8":{"id":"A8","title":"Site check and site-specific risk assessment","blocks":[{"t":"p","text":"Completed by the Chief Instructor before the first session in each new place, and approved by the Principal."},{"t":"fields","items":[{"label":"Place","type":"text","k":"place"},{"label":"Date","type":"date","k":"date"},{"label":"Completed by","type":"text","k":"completed_by"}]},{"t":"h","text":"Checks"},{"t":"ticks","items":["Rules for this place read (Appendix C) and any local notices checked","Operating area agreed and marked on the chart (sketch below)","Port call sheet ready for this place"]},{"t":"h","text":"SABAI's site hazards"},{"t":"p","text":"Circle whether each hazard is present here. Write any extra control, and any other hazard, in the lines below."},{"t":"table","head":["Hazard at this place","Who is at risk","SABAI's control","Here?"],"rows":[["Swimmers, divers, bathing zones","Swimmers, rider","100 m from SABAI's swimmers; local zones (Appendix C)","Yes / No"],["Boats, ferries, channels, moorings","Riders, other boats","Area clear of channels; chase boat and bridge lookout","Yes / No"],["SABAI's anchor, yachts at anchor","Rider, passenger","Kept out of the area on the chart","Yes / No"],["Depths, rocks, reefs, shore","Rider, passenger","Area marked on the chart","Yes / No"],["Marine parks, speed limits","Rider, SABAI","Appendix C rules; 60 km/h limit if rough","Yes / No"],["Weather, wind, sea, shelter","Everyone afloat","Daylight; wind under 15 knots; sea under 0.5 m","Yes / No"],["Distance to help","Casualty","Port call sheet; ambulance landing; phone and radio","Yes / No"]]},{"t":"pb"},{"t":"grid","head":["Extra control or other hazard","Who is at risk","Control"],"keys":["extra_control_or_other_hazard","who_is_at_risk","control"],"rows":3},{"t":"fields","items":[{"label":"Highest score with controls (JMS HS 008a, as RA-WAT-06): 4 or less to proceed","type":"text","k":"highest_score_with_controls_jms_hs_008a_"}]},{"t":"drawbox","mm":80},{"t":"fields","items":[{"label":"Chief Instructor: name and signature","type":"sig","k":"chief_instructor_name_and_signature"},{"label":"Principal's approval: name and signature","type":"sig","k":"principal_s_approval_name_and_signature"},{"label":"Date approved","type":"date","k":"date_approved"}]}]},"A9":{"id":"A9","title":"Record of certificates issued","blocks":[{"t":"grid","head":["Certificate no.","Name","Rider type","Course date","Instructor","Valid until","Photo","Registered"],"keys":["certificate_no","name","rider_type","course_date","instructor","valid_until","photo","registered"],"rows":12}]},"A10":{"id":"A10","title":"Refresher briefing and ride check","blocks":[{"t":"p","text":"For riders whose certificate has run out (section 3). The rider receives the full safety briefing and rides with an instructor, who checks that they can ride safely."},{"t":"grid","head":["Name","Rider type","Certificate no.","Date","Briefing","Ride check passed","Instructor","Valid until"],"keys":["name","rider_type","certificate_no","date","briefing","ride_check_passed","instructor","valid_until"],"rows":11}]},"A11":{"id":"A11","title":"Accident and incident reporting record","blocks":[{"t":"p","text":"The incident report is JMS's HS 002 01, completed the same day as ECL-16 requires, with the deck log entry. This form records who was told and when, for each accident, incident or near miss. A copy of the HS 002 01 is filed behind it in the centre file."},{"t":"fields","items":[{"label":"Date and time","type":"datetime","k":"date_and_time"},{"label":"Type: accident / incident / near miss","name":"Type","type":"choice","opts":["accident","incident","near miss"],"multi":false,"k":"type"},{"label":"HS 002 01 reference","type":"text","k":"hs_002_01_reference"}]},{"t":"fields","items":[{"label":"Place","type":"text","k":"place"},{"label":"Supervisor","type":"text","k":"supervisor"},{"label":"Deck log entry (time)","type":"time","k":"deck_log_entry_time"}]},{"t":"h","text":"Who was told"},{"t":"fields","items":[{"label":"Principal (time)","type":"time","k":"principal_time"},{"label":"JMS Marine Emergency Call Centre, form EM 002 01 (time)","type":"time","k":"jms_marine_emergency_call_centre_form_em"},{"label":"HS 002 01 sent to JMS (date)","type":"date","k":"hs_002_01_sent_to_jms_date"}]},{"t":"fields","items":[{"label":"RYA online report, within 24 hours (date and reference)","type":"text","k":"rya_online_report_within_24_hours_date_a"},{"label":"Flag, for a serious injury: Cayman Islands Shipping Registry (date)","type":"date","k":"flag_for_a_serious_injury_cayman_islands"},{"label":"Local authorities (who and when)","type":"text","k":"local_authorities_who_and_when"}]},{"t":"h","text":"After the event"},{"t":"fields","items":[{"label":"Craft out of use until checked (ECL-16): checked by","type":"text","k":"craft_out_of_use_until_checked_ecl_16_ch"},{"label":"Debrief held (date)","type":"date","k":"debrief_held_date"},{"label":"Emergency action plan reviewed (date)","type":"date","k":"emergency_action_plan_reviewed_date"}]},{"t":"fields","items":[{"label":"Reviewed at the safety meeting (date)","type":"date","k":"reviewed_at_the_safety_meeting_date"},{"label":"RA-WAT-06 reviewed (date)","type":"date","k":"ra_wat_06_reviewed_date"},{"label":"Principal's signature","type":"sig","k":"principal_s_signature"}]}]},"A12":{"id":"A12","title":"Staff training, briefing and teaching record","blocks":[{"t":"p","text":"One record of staff briefings, drills and the Chief Instructor's monitoring of teaching. Inductions are recorded on Form A2."},{"t":"grid","head":["Date","Type: briefing, drill or teaching monitored","Staff","What was covered, and comments","By"],"keys":["date","type_briefing_drill_or_teaching_monitore","staff","what_was_covered_and_comments","by"],"rows":16}]},"A13":{"id":"A13","title":"Feedback and complaints","blocks":[{"t":"p","text":"Your feedback helps us improve. Hand this form to the instructor or the Captain."},{"t":"fields","items":[{"label":"Name (optional)","type":"text","k":"name_optional"},{"label":"Date","type":"date","k":"date"},{"label":"Course or session","type":"text","k":"course_or_session"}]},{"t":"h","text":"How was it?"},{"t":"lines","n":3},{"t":"h","text":"Complaints"},{"t":"p","text":"If something has gone wrong, tell the Chief Instructor first. If that does not resolve it, write it below for the Captain. If you are still not satisfied, the Captain passes it to the person ashore designated by the yacht's managers, and you may then contact RYA Training at training@rya.org.uk."},{"t":"lines","n":4},{"t":"fields","items":[{"label":"Designated person ashore (JMS)","type":"text","k":"designated_person_ashore_jms"},{"label":"Email","type":"email","k":"email"},{"label":"RYA contact","type":"text","k":"rya_contact"}]},{"t":"fields","items":[{"label":"Received by","type":"text","k":"received_by"},{"label":"Date","type":"date","k":"date_2"},{"label":"Outcome and date","type":"long","k":"outcome_and_date"}]}]}},"fk":{"A1":{},"A2":{"name":"name","post":"post","date":"date","roles":"roles","sig_person":"inducted_name_and_signature","sig_ci":"inducted_by_chief_instructor_name_and_si","sig_date":"date_2"},"A3":{},"A4":{"name":"full_name","dob":"date_of_birth","mobile":"mobile","email":"email_for_your_copy_of_this_form","type":"rider_type","swim":"can_you_swim_at_least_50_m_in_light_clot"},"A5":{"child":"name_of_child","dob":"date_of_birth","guardian":"parent_or_guardian_s_name","phone":"phone","adult":"responsible_adult"},"A6":{"date":"date","place":"place","instructor":"instructor"},"A7":{"date":"date","place":"place_and_operating_area","approval":"principal_s_approval_name_and_time","supervisor":"supervisor","driver":"chase_boat_driver","stew":"chase_stew","bridge":"bridge_watch","hand":"platform_hand","crane":"crane_team","channel":"working_channel","forecast":"forecast_wind_and_sea","vis":"visibility","fuel_out":"fuel_at_launch_level_and_time","fuel_in":"fuel_at_recovery_level_and_time","radio":"radio_check_done_time","team":"team_briefing_time","keys":"keys_signed_out","limit":"60_km_h_limit_set","defects":"defects_or_kit_used","ended":"session_ended_time","sig":"supervisor_s_signature"},"A8":{"place":"place","date":"date","by":"completed_by","score":"highest_score_with_controls_jms_hs_008a_","sig_ci":"chief_instructor_name_and_signature","sig_p":"principal_s_approval_name_and_signature","approved":"date_approved"},"A9":{},"A10":{},"A11":{"when":"date_and_time","sig":"principal_s_signature"},"A12":{},"A13":{"name":"name_optional","date":"date","course":"course_or_session","dpa":"designated_person_ashore_jms","email":"email","rya":"rya_contact","received":"received_by","rdate":"date_2","outcome":"outcome_and_date"}},"rider":[{"id":"about","label":"About you","form":"A4","h":"1. Your details","blocks":[{"t":"fields","items":[{"label":"Full name","type":"text","k":"full_name"},{"label":"Date of birth","type":"date","k":"date_of_birth"},{"label":"Mobile","type":"tel","k":"mobile"},{"label":"Email (for your copy of this form)","type":"email","k":"email_for_your_copy_of_this_form"}]},{"t":"fields","items":[{"label":"Nationality","type":"text","k":"nationality"},{"label":"Country of residence","type":"text","k":"country_of_residence"},{"label":"Rider type: Owner / Owner's guest / charter guest / crew","name":"Rider type","type":"choice","opts":["Owner","Owner's guest","charter guest","crew"],"multi":false,"k":"rider_type"},{"label":"Jet ski experience (none, some, a lot)","name":"Jet ski experience","type":"choice","opts":["none","some","a lot"],"k":"jet_ski_experience"}]},{"t":"fields","items":[{"label":"Boat licence or International Certificate of Competence held (type and number), if any","type":"text","k":"boat_licence_or_international_certificat"},{"label":"Can you swim at least 50 m in light clothing? Yes / No","name":"Can you swim at least 50 m in light clothing?","type":"choice","opts":["Yes","No"],"k":"can_you_swim_at_least_50_m_in_light_clot"},{"label":"Emergency contact: name and relationship","type":"text","k":"emergency_contact_name_and_relationship"},{"label":"Emergency contact: phone","type":"tel","k":"emergency_contact_phone"}]}]},{"id":"health","label":"Your health","form":"A4","h":"2. Your health","blocks":[{"t":"p","text":"Does any of the following apply to you? If yes, give details in the table. It will not necessarily stop you riding, but the instructor must know. If you are unsure whether you are fit to ride, ask your doctor before the session."},{"t":"health","items":[{"k":"heart_condition_or_high_blood_pressure","label":"Heart condition or high blood pressure"},{"k":"epilepsy_fits_fainting_or_dizziness","label":"Epilepsy, fits, fainting or dizziness"},{"k":"diabetes","label":"Diabetes"},{"k":"asthma_or_breathing_problems","label":"Asthma or breathing problems"},{"k":"back_or_neck_problems","label":"Back or neck problems"},{"k":"injury_or_operation_in_the_last_6_months","label":"Injury or operation in the last 6 months"},{"k":"pregnancy","label":"Pregnancy"},{"k":"any_medicine_you_take_especially_one_tha","label":"Any medicine you take, especially one that may make you drowsy"},{"k":"any_other_condition_that_could_affect_yo","label":"Any other condition that could affect your safety on the water"}],"head":["Condition","Yes","No","Details if yes"]}]},{"id":"rules","label":"The rules","form":"A4","h":"3. The rules I will follow","blocks":[{"t":"ol","items":["I will wear the impact jacket and neoprene shorts I am given whenever I am on the jet ski.","I will clip the kill cord to my impact jacket before starting, and keep it clipped on while the engine runs.","I will not ride after drinking alcohol, taking drugs, or taking medicine that affects my alertness.","I will ride only inside the area shown to me, and within sight of the chase boat.","I will keep to the speed and distance limits given in the briefing and the local rules, and keep clear of swimmers, divers, other boats, anchor chains and the shore.","I will carry only the passengers the instructor allows, never more than two, and only people who have had the briefing and wear an impact jacket.","I will never start the engine or use the throttle while anyone is in the water near the stern.","I will follow the instructions and signals of the instructor and crew, and come back at once when recalled.","I will ride only when a SABAI instructor has cleared me, only while my certificate is valid, and on the Learning Key until the instructor tells me I may use the normal key.","I will report any accident, near miss or damage to the instructor straight away."]}]},{"id":"risks","label":"The risks","form":"A4","h":"4. The risks","blocks":[{"t":"p","text":"Riding a jet ski carries risks even when every rule is followed. They include falling off; collision with another boat, an object or a person; serious injury from the water jet at the stern, including internal injury to anyone not wearing neoprene shorts; injury from the craft or its handlebars; drowning; cold, sunburn and exhaustion; and injury from fuel, heat or fire. The briefing explains how to reduce these risks, and I have been able to ask questions about them."}]},{"id":"sign","label":"Sign","form":"A4","h":"5. Declaration","blocks":[{"t":"ul","items":["The information I have given is true and complete to the best of my knowledge. I will tell the instructor if anything changes.","I am fit to take part. I can swim, and I am confident in the water wearing an impact jacket.","I have received the safety briefing, I understood it, and I agree to follow the rules in part 3.","I take part voluntarily, and I accept the risks described in part 4, which are part of the activity.","I understand that the instructor or the Captain may stop me riding at any time for my safety or the safety of others.","To the extent the law allows, SABAI, its owner, managers and crew are not liable for loss of or damage to my property, or for injury, loss or damage that results from my not following the rules in part 3 or the crew's instructions. Nothing in this form limits or excludes liability for death or personal injury caused by negligence, or any other liability that cannot be limited or excluded by law.","I agree to a photo of me being taken aboard for my certificate.","I agree that SABAI keeps the details on this form for training and safety records, and shares them only with the RYA (for my certificate), the yacht's managers (JMS), the authorities where the law requires, and the emergency services if I need help."]},{"t":"sign","roles":["Rider","Instructor (witness)"],"keys":["rider","instructor_witness"]}]}],"induction":[{"h":"Everyone","items":[{"k":"41d41853","text":"Where this manual is kept; posts and responsibilities (section 2); sections 4, 5 and 7 read","roles":"*"},{"k":"b88210f5","text":"The session procedure and the person's part in it (section 4)","roles":"*"},{"k":"c1dc15c9","text":"Session log and movement log (Form A7), working channel, radio checks and 30-minute check-ins","roles":"*"},{"k":"6e9a17ca","text":"Emergency action plan card, the poster for the role (30, 31 or 32) and the person's duties in it","roles":"*"},{"k":"870f853f","text":"First aid kits, defibrillator, Jason's Cradle and fire equipment: where they are","roles":"*"},{"k":"1e97d2b2","text":"Accident, incident and near miss reporting: deck log, HS 002 01 and Form A11 (section 7)","roles":"*"}]},{"h":"Instructors and crew supervisors","items":[{"k":"edf3f6bb","text":"How this manual is changed; RYA Instructor Code of Conduct, safeguarding and equality policies (section 9, Appendix B)","roles":["instructor","crew supervisor"]},{"k":"289c1387","text":"Staff record completed and certificates copied (Form A1)","roles":["instructor","crew supervisor"]},{"k":"62c95eb7","text":"Jet ski controls: start, stop, throttle, brake and reverse lever, display and its warnings, riding modes","roles":["instructor","crew supervisor"]},{"k":"244bc2a1","text":"Kill cord and spare key; demonstration that pulling the cord stops the engine","roles":["instructor","crew supervisor"]},{"k":"76bce374","text":"Boarding ladder, capsize recovery, towing, intake clearing (section 6, BRP guide)","roles":["instructor","crew supervisor"]},{"k":"31a5a683","text":"Pre-use checks, fuel and fresh-water flushing","roles":["instructor","crew supervisor"]},{"k":"8fea23eb","text":"Weather limits and stopping a session","roles":["instructor","crew supervisor"]},{"k":"2e97e61e","text":"Local rules and operating areas (section 8); the site check (Form A8)","roles":["instructor","crew supervisor"]},{"k":"1b850283","text":"Safety briefing given to the Chief Instructor as a practice (section 5, Form A6)","roles":["instructor","crew supervisor"]},{"k":"6cd54d8d","text":"MAYDAY and PAN-PAN; port call sheets","roles":["instructor","crew supervisor"]},{"k":"f9472e11","text":"Registration and declarations (Forms A4, A5), certificates and their validity (Forms A9, A10), feedback and complaints (Form A13)","roles":["instructor","crew supervisor"]},{"k":"440cef05","text":"Ride check on the jet ski with the Chief Instructor","roles":["instructor","crew supervisor"]}]},{"h":"Chase boat (instructors, chase boat drivers, Chase Stew) and crane (instructors, crane team)","items":[{"k":"afe62f99","text":"Chase boat: controls, kill cord, VHF, kit against the RYA powerboat checklist","roles":["instructor","chase boat driver","Chase Stew"]},{"k":"a0763c0b","text":"Casualty recovery from the water to the chase boat, and the transfer to the swim platform","roles":["instructor","chase boat driver","Chase Stew"]},{"k":"e3ea5bba","text":"Towing the jet ski with the chase boat","roles":["instructor","chase boat driver","Chase Stew"]},{"k":"e98d6a1e","text":"Crane: forward crane launch and recovery, walk-through of the crane SOP","roles":["instructor","crane team"]}]}],"sections":[{"key":"1","title":"About this manual","html":"","posters":[],"hash":"0f10186121"},{"key":"2","title":"People and responsibilities","html":"","posters":[],"hash":"ec8869cf64"},{"key":"3","title":"The course","html":"","posters":[],"hash":"3f729ab535"},{"key":"4","title":"Running a jet ski session","html":"","posters":[],"hash":"730659417e"},{"key":"5","title":"Safety briefing","html":"","posters":["briefing"],"hash":"a942360292"},{"key":"6","title":"Craft and equipment","html":"","posters":[],"hash":"5fac9cdf4a"},{"key":"7","title":"Emergencies","html":"","posters":["p30","p31","p32"],"hash":"142c04465b"},{"key":"8","title":"Local rules and operating areas","html":"","posters":[],"hash":"dabe7ffcda"},{"key":"9","title":"Policies","html":"","posters":[],"hash":"8d2889cef8"},{"key":"10","title":"Risk assessment","html":"","posters":[],"hash":"7c3b306cfd"},{"key":"A","title":"Forms","html":"","posters":[],"hash":"e6ca994f8e"},{"key":"B","title":"RYA Instructor Code of Conduct","html":"","posters":[],"hash":"f69c7c153f"},{"key":"C","title":"Rider regulations by destination","html":"","posters":[],"hash":"6b953b8881"}],"master":{"before":["What to wear: swimwear, and sunglasses with a strap if they wear them. Bring sun protection and water to drink. SABAI provides the impact jacket and neoprene shorts.","No alcohol before riding.","There is no charge for the course.","The session may be cancelled or stopped at any time for weather, local rules or safety. It is then rearranged when conditions allow."],"briefing":["<b>Getting to the platform:<\/b> stairs and the swim platform are slippery when wet. Hold the handrails.","<b>What to wear:<\/b> the impact jacket, fitted and fastened, and neoprene shorts. These protect against the water jet. A helmet is offered; if the rider wears one, the passenger does too.","<b>Your health:<\/b> tell the instructor about any change since you filled in Form A4. No alcohol or drugs.","<b>The kill cord:<\/b> clip it to your impact jacket before starting. If you fall off, it stops the engine. Never ride without it.","<b>The controls:<\/b> start and stop buttons, the throttle, and the brake and reverse lever. You need throttle to steer: with no throttle the jet ski goes straight on. Learners ride on the Learning Key, which limits the speed.","<b>The water jet:<\/b> never start the engine or use the throttle while anyone is in the water near the stern.","<b>Passengers:<\/b> no more than the instructor allows, and never more than 2 behind the rider (3 people in all). Passengers hold on to the rider or the strap, and the rider warns them before moving off.","<b>The operating area:<\/b> where you may ride, and where you may not. Marine parks, swimming areas and channels are pointed out.","<b>Speed and distance:<\/b> slow (no wake) within 300 m of the shore, near SABAI and near other boats, unless the local rules set something stricter. Keep at least 100 m from swimmers and divers. Never cross close ahead of a boat.","<b>Lookout:<\/b> look all round, especially behind you, before turning.","<b>Falling off and capsize:<\/b> swim to the stern, lower the ladder and climb back on, one person at a time. If it turns over, roll it upright from the side as the label on the stern shows.","<b>Breakdown:<\/b> stay with the jet ski. Call the chase boat on the VHF, or give the signal for help. Do not swim for the shore.","<b>Signals and radio:<\/b> the four hand signals below. The VHF clipped to your jacket is on the working channel: call \u201cChase boat, this is jet ski\u201d, say what has happened and where. MAYDAY on channel 16 if a life is in danger.","<b>Coming back:<\/b> return slowly to the swim platform when told or when recalled. Engine off before anyone steps off.","<b>Display warnings:<\/b> come back slowly if a warning shows on the display.","<b>Questions and feedback:<\/b> ask at any time. Feedback is welcome after the session (Form A13)."],"briefingIntro":"Every rider and passenger receives this briefing before their first ride of the day, even if they hold a certificate. It is given at the swim platform, using the jet ski and the A4 briefing poster. Each person signs that they understood it on Form A6.","periods":[{"who":"The Owner and the Owner's guests","text":"6 months from the course","months":6,"charter":false},{"who":"Crew","text":"1 year from the course","months":12,"charter":false},{"who":"Charter guests","text":"The length of their charter only","months":null,"charter":true}],"valid":"The certificate is valid only on SABAI, only under SABAI's supervision (from the chase boat or a point overlooking the area), and only within the local law.","record":"The RYA course is a training and supervision record.","photoRule":"A printed photo of the rider, taken aboard, goes on the certificate. No passport photo is needed.","ageRule":"Minimum age 12 (RYA). The jet ski's maker, BRP, recommends 16 as the minimum age to drive. On SABAI, riders aged 12 to 15 drive only on the Learning Key, with a responsible adult riding behind them and the instructor close by in the chase boat, and only where local law allows (Appendix C). Riders under 18 also need Form A5 signed by a parent or guardian.","minAge":12,"refresher":"When a certificate runs out, the rider does not repeat the course. They receive a refresher briefing and a ride check with an instructor, recorded on Form A10. A new validity period runs from that date.","posts":["Principal","Chief Instructor","Instructor","Crew supervisor","Chase boat driver","Chase Stew","Bridge watch","Platform hand","Crane team"],"dpa":"+34 650 343 519 \u00b7 dpa@jmsyachting.com","ryaTraining":"+44 23 8060 4181 \u00b7 training@rya.org.uk"},"fuel":["Full","3/4","1/2","1/4","Below 1/4"],"posters":{"briefing":"Jet ski safety briefing poster","p30":"Poster 30 Jet ski rider","p31":"Poster 31 Chase boat driver","p32":"Poster 32 Jet ski emergency, SABAI"},"roles":["Principal","Alternate Principal","Captain","Chief Instructor","instructor","crew supervisor","chase boat driver","Chase Stew","platform hand","crane team","bridge watch"],"a1roles":["Principal","Alternate Principal","Chief Instructor","instructor","crew supervisor"],"hash":"7a7512f18255"};
+</script>
+<script>
+(function () {
+  'use strict';
+  var API = window.JETSKI_API, T = window.TEXTS, FK = T.fk;
+  var app = document.getElementById('app');
+  var NS = 'sabai-pwc:';
+  var K = new URLSearchParams(location.search).get('k') || '';
+  var B = null;                       // what the script sent when the page opened
+  var V = { part: '', flow: null, step: 0, as: null, fopt: {} };   // what is on screen; as: a rider on the yacht's iPad
+  var D = {};                         // answers so far, kept on this device as they are typed
+  var PADS = {};                      // signature boxes on screen
+  var PARTS = { riding: 'My riding', role: 'My role', today: 'Today', crew: 'Crew and places', sign: 'To sign', records: 'Records' };
+  var HERO = { riding: 'm3-course', role: 'm2-people', today: 'm4-session', crew: 'm8-local', sign: 'mA-forms', records: 'm1-about' };
+  var PLAIN = { A1: 'Staff record', A2: 'Induction', A3: 'Signed for the manual', A4: 'Rider form', A5: "Parent or guardian's consent", A6: 'Briefing signatures',
+    A7: 'Session log', A8: 'Site check', A9: 'Certificate', A10: 'Refresher', A11: 'Accident or incident', A12: 'Staff training', A13: 'Feedback' };
+
+  /* ---------------------------------------------------------------- helpers */
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function nf(s) { return String(s || '').replace(/\s*\(Form A\d+\)/g, ''); }   // no form numbers in labels on screen (D-236)
+  function lab(f) { return f.type === 'choice' ? (f.name || f.label) : f.label; }
+  function $(id) { return document.getElementById(id); }
+  function each(sel, fn, root) { Array.prototype.forEach.call((root || document).querySelectorAll(sel), fn); }
+  function store(k, v) { try { localStorage.setItem(NS + k, JSON.stringify(v)); } catch (e) {} }
+  function load(k) { try { return JSON.parse(localStorage.getItem(NS + k) || 'null'); } catch (e) { return null; } }
+  function drop(k) { try { localStorage.removeItem(NS + k); } catch (e) {} }
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  function ymd(d) { d = d || new Date(); return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }
+  function hm(d) { d = d || new Date(); return pad2(d.getHours()) + ':' + pad2(d.getMinutes()); }
+  function stamp() { return ymd() + 'T' + hm(); }
+  var MON = 'Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
+  function nice(s) { var m = /^(\d{4})-(\d\d)-(\d\d)(?:[T ](\d\d:\d\d))?/.exec(String(s || '')); return m ? (+m[3]) + ' ' + MON[+m[2] - 1] + ' ' + m[1] + (m[4] ? ', ' + m[4] : '') : String(s || ''); }
+  function age(dob) { var a = String(dob || '').split('-').map(Number), b = ymd().split('-').map(Number); if (a.length !== 3 || !a[0]) return null; return b[0] - a[0] - ((b[1] < a[1] || (b[1] === a[1] && b[2] < a[2])) ? 1 : 0); }
+  function initials(n) { var w = String(n || '').split(/\s+/).filter(String); return w.length ? w.map(function (x) { return x[0].toUpperCase(); }).join('.') + '.' : ''; }
+  function get(path) { return path.split('.').reduce(function (o, k) { return o == null ? undefined : o[k]; }, D); }
+  function set(path, v) { var ks = path.split('.'), o = D; ks.slice(0, -1).forEach(function (k) { if (o[k] == null || typeof o[k] !== 'object') o[k] = {}; o = o[k]; }); o[ks[ks.length - 1]] = v; saveDraft(); }
+  function draftKey() { return 'draft-' + (V.as ? 'as-' + V.as.id : K.slice(0, 12)); }
+  function saveDraft() { store(draftKey(), D); }
+  function logo() { return '<span class="logo">' + LOGO_SVG + '</span>'; }
+  function form(fid) { return T.forms[fid]; }
+  function part(fid, h) { var out = [], on = !h; form(fid).blocks.forEach(function (b) { if (b.t === 'h') on = b.text === h; else if (on && b.t !== 'pb') out.push(b); }); return out; }
+  function fieldsOf(fid) { var o = []; form(fid).blocks.forEach(function (b) { if (b.t === 'fields' || b.t === 'staffcard') o = o.concat(b.items); }); return o; }
+  function fieldOf(fid, k) { return fieldsOf(fid).filter(function (f) { return f.k === k; })[0]; }
+  function grid(fid) { return form(fid).blocks.filter(function (b) { return b.t === 'grid'; })[0]; }
+  function has(r) { return !!B && B.me.roles.indexOf(r) >= 0; }
+
+  function toast(msg, ms) {
+    var t = document.createElement('div'), dk = document.querySelector('.dock'); t.className = 'toast'; t.setAttribute('role', 'status');
+    if (dk) t.style.bottom = 'calc(' + (dk.offsetHeight + 12) + 'px + env(safe-area-inset-bottom))'; t.textContent = msg; document.body.appendChild(t);
+    setTimeout(function () { t.remove(); }, ms || 3200);
+  }
+  function busy(msg) { var b = document.createElement('div'); b.className = 'busy'; b.innerHTML = '<div class="spin"></div><p>' + esc(msg) + '</p>'; document.body.appendChild(b); return function () { b.remove(); }; }
+
+  /* ---------------------------------------------------------------- the connection, with an outbox for lost signal */
+  function post(fn, a, ms) {
+    var ctl = window.AbortController ? new AbortController() : null;
+    var timer = ctl ? setTimeout(function () { ctl.abort(); }, ms || 120000) : 0;
+    return fetch(API, { method: 'POST', credentials: 'omit', redirect: 'follow', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ fn: fn, args: [a] }), signal: ctl ? ctl.signal : undefined })
+      .then(function (r) { return r.text(); }, function () { clearTimeout(timer); var e = new Error('No signal. Check the connection and try again.'); e.offline = true; throw e; })
+      .then(function (t) {
+        clearTimeout(timer);
+        var j = null; try { j = JSON.parse(t); } catch (e) { throw new Error('The jet ski service did not answer properly. Please try again.'); }
+        if (!j || !j.ok) throw new Error((j && j.error) || 'Something went wrong. Please try again.');
+        return j.data;
+      });
+  }
+  function api(fn, a, ms) {
+    a = a || {}; a.k = K;
+    if (V.as && !a.as && ['riderForm', 'riderBoot'].indexOf(fn) >= 0) a.as = V.as.id;
+    return post(fn, a, ms);
+  }
+  var OUTBOX_OK = { riderForm: 1, briefSign: 1, feedback: 1, initial: 1, details: 1 };
+  function send(fn, a, msg) {   // answers that can wait for signal go to the outbox if there is none
+    var done = busy(msg || 'Sending');
+    return api(fn, a).then(function (r) { done(); return r; }, function (e) {
+      done();
+      if (e.offline && OUTBOX_OK[fn]) {
+        var box = load('outbox') || []; box.push({ fn: fn, a: a, at: stamp() }); store('outbox', box);
+        toast('Saved on this device. It sends by itself when there is signal.', 5000);
+        return { queued: true };
+      }
+      throw e;
+    });
+  }
+  function flush() {
+    var box = load('outbox') || [];
+    if (!box.length) return Promise.resolve();
+    return post(box[0].fn, box[0].a).then(function () {
+      store('outbox', (load('outbox') || []).slice(1)); toast('Sent what was saved on this device.', 4000); return flush();
+    }, function (e) {
+      if (e.offline) return;   // still no signal: try again later
+      store('outbox', (load('outbox') || []).slice(1)); toast('Something saved on this device could not be sent: ' + e.message, 6000); return flush();
+    });
+  }
+  window.addEventListener('online', function () { flush().then(function () { if (!V.flow) boot(); }); });
+
+  /* ---------------------------------------------------------------- opening */
+  function boot() {
+    var call = V.as ? api('riderBoot', { as: V.as.id }) : api('boot');
+    return call.then(function (b) {
+      B = b;
+      if (b.hash !== T.hash) toast('This page has a newer version. Close it and open the link again.', 6000);
+      var want = location.hash.slice(1);
+      if (!V.part || b.parts.indexOf(V.part) < 0) V.part = b.parts.indexOf(want) >= 0 ? want : b.parts[0];
+      render();
+    }, function (e) { message('This page could not open', e.message); });
+  }
+  function start() {
+    if (!K) return message('Open your own link', 'This page needs the link the Mate sent you. Open it from that message.');
+    D = load(draftKey()) || {};
+    app.innerHTML = '<div class="loading">' + logo() + '<div class="spin"></div><span>Opening your page</span></div>';
+    flush().then(boot);
+  }
+  function message(h, p) { app.innerHTML = '<div class="wrap" style="padding-top:80px;text-align:center"><div class="loading" style="min-height:0">' + logo() + '</div><h2 class="sec">' + esc(h) + '</h2><p class="lead">' + esc(p) + '</p></div>'; }
+
+  /* ---------------------------------------------------------------- the page: parts */
+  function render() {
+    PADS = {};
+    if (V.flow) return renderFlow();
+    var parts = B.parts, p = V.part;
+    var h = '<div class="bar"><div class="wrap">' + logo() + '<div class="me">' + (B.test ? '<span class="tag test">Test</span>' : '') +
+      (V.as ? '<span class="tag ipad">Yacht\'s iPad</span>' : '') + '<span>' + esc(B.me.name) + '</span></div></div></div>';
+    var nx = nextStep();
+    h += '<div class="hero" style="background-image:url(img/' + HERO[p] + '.jpg)"><div class="wrap"><p class="kicker">' + esc(PARTS[p]) + '</p><h1>' +
+      esc(greet()) + '</h1><p class="next">' + nx.text + '</p>' + (nx.act ? '<button class="btn gold" data-act="' + nx.act + '"' + (nx.arg ? ' data-arg="' + esc(nx.arg) + '"' : '') + '>' + esc(nx.label) + '</button>' : '') + '</div></div>';
+    if (parts.length > 1) h += '<nav class="tabs" role="tablist"><div class="wrap">' + parts.map(function (x) {
+      var n = x === 'sign' ? B.sign.length : 0;
+      return '<button role="tab" aria-selected="' + (x === p) + '" data-act="part" data-arg="' + x + '">' + esc(PARTS[x]) + (n ? '<i class="n">' + n + '</i>' : '') + '</button>';
+    }).join('') + '</div></nav>';
+    h += '<main><div class="wrap">' + (B.test ? '<div class="note test"><b>Test version.</b> Made-up people only. Every email goes to the Mate\'s own mailbox, and every saved form is marked TEST.</div>' : '') +
+      homeHint() + ({ riding: riding, role: role, today: today, crew: crew, sign: toSign, records: records }[p])() + '</div></main>';
+    app.innerHTML = h;
+    after();
+  }
+  function greet() { var hr = new Date().getHours(), first = String(B.me.name).split(' ')[0]; return (hr < 12 ? 'Good morning, ' : hr < 18 ? 'Good afternoon, ' : 'Good evening, ') + first; }
+  function homeHint() {
+    var touch = 'ontouchend' in document, standalone = window.navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+    if (!touch || standalone || load('hintDone') || V.as) return '';
+    return '<div class="note info"><button class="linkbtn" style="float:right;margin-left:12px;padding:0" data-act="hint">Got it</button>To open this page like an app: tap Share, then <b>Add to Home Screen</b>.</div>';
+  }
+
+  /** What to do next, in plain words. */
+  function nextStep() {
+    var p = V.part, s = B.sign;
+    if (p === 'sign') return s.length ? { text: s.length === 1 ? 'One thing is waiting for your signature.' : s.length + ' things are waiting for your signature, oldest first.' } : { text: 'Nothing is waiting for your signature.' };
+    if (p === 'records') return { text: s && s.length ? 'Every signed record, by date. ' + s.length + ' waiting for your signature.' : 'Every signed record, by date, with its PDF.', act: s && s.length ? 'part' : '', arg: 'sign', label: 'To sign' };
+    if (p === 'today') {
+      var ses = B.todayPart.sessions[0];
+      if (!ses) return { text: 'No session is planned with you as supervisor.' };
+      if (ses.status === 'approve') return { text: 'The session on ' + esc(nice(ses.f[FK.A7.date])) + ' is waiting for the Principal\'s approval.' };
+      var w = ses.riders.filter(function (x) { return x.state === 'witness'; }).length;
+      return { text: w ? w + (w === 1 ? ' rider form is' : ' rider forms are') + ' ready for you to check and witness.' : 'Work down the page: checks, riders, briefing, then each ride out and back.' };
+    }
+    if (p === 'crew') {
+      var ind = B.crew.staff.filter(function (x) { return x.needsInduction && !x.induction && x.read === x.of; }).length;
+      var ap = B.crew.staff.filter(function (x) { return x.signed && x.signed.status === 'ci'; }).length;
+      return { text: [ind ? ind + ' induction' + (ind > 1 ? 's' : '') + ' to run' : '', ap ? ap + ' to approve for their role' : ''].filter(String).join(', ') || 'Everyone\'s reading, induction and certificate dates are below.' };
+    }
+    if (p === 'role') return roleNext(B.role);
+    return ridingNext(B.riding);
+  }
+  function ridingNext(r) {
+    var s = r.session;
+    if (r.state === 'form') return { text: D.rider ? 'Carry on with your rider form. Your answers so far are saved on this device.' : 'Fill in your rider form before you ride. It takes about ten minutes.', act: 'flow', arg: 'rider', label: D.rider ? 'Carry on' : 'Start' };
+    if (s && s.given && !s.signed) return { text: 'The instructor has given today\'s safety briefing. Sign that you understood it.', act: 'briefSign', label: 'Sign for the briefing' };
+    if (r.state === 'witness') return { text: 'Thank you, your form is done. The instructor goes through it with you at the swim platform.' };
+    if (r.state === 'course') return { text: 'Your form is signed. Next is the course with the instructor at the swim platform.' + (r.photo ? '' : ' You can add your photo for the certificate now.') };
+    if (r.state === 'cert') return { text: 'Course complete. Your rider pass comes by email once the Principal signs your certificate.' };
+    if (r.state === 'refresher') return { text: 'Your certificate ran out on ' + esc(nice(r.cert.until)) + '. Before you ride, the instructor gives you a refresher briefing and a ride check.' };
+    return { text: 'You can ride under SABAI\'s supervision until ' + esc(nice(r.cert && r.cert.until)) + '. Your rider pass is below.' };
+  }
+  function roleNext(ro) {
+    if (ro.a1 && !ro.details) return { text: 'Start with your details and certificates.', act: 'flow', arg: 'details', label: 'My details' };
+    if (ro.changed.length) return { text: 'A new issue of the manual is out. Read the ' + ro.changed.length + ' changed section' + (ro.changed.length > 1 ? 's' : '') + ', then sign again.', act: 'flow', arg: 'read', label: 'Read the changes' };
+    if (ro.read.length < T.sections.length) return { text: 'Read the manual one section at a time and initial each. ' + ro.read.length + ' of ' + T.sections.length + ' done.', act: 'flow', arg: 'read', label: ro.read.length ? 'Carry on reading' : 'Start reading' };
+    if (ro.needsInduction && !ro.induction) return { text: 'Manual read. Next, the Chief Instructor runs your induction with you on the iPad.' };
+    if (!ro.signed || !ro.signed.current) return { text: ro.signed ? 'Sign again for this issue of the manual.' : 'Last step: sign for the manual.', act: 'signManual', label: 'Sign for the manual' };
+    if (ro.signed.status === 'ci') return { text: 'Signed. The Chief Instructor approves you for your role next.' };
+    return { text: 'All done for this issue of the manual.' };
+  }
+
+  /* ---- My riding ---- */
+  function riding() {
+    var r = B.riding, h = '';
+    if (V.as && r.state !== 'form') h += '<div class="card"><h3>Thank you</h3><p class="lead">Please hand the iPad back to the instructor.</p><button class="btn primary" data-act="handBack">Back to the instructor</button></div>';
+    if (r.state === 'form') h += '<div class="card"><h3>Your rider form</h3><p>Before you ride, about you, your health, the rules and the risks, then your signature. ' +
+      (D.rider ? 'Your answers so far are saved on this device.' : 'It takes about ten minutes.') + '</p><div class="btns"><button class="btn primary" data-act="flow" data-arg="rider">' + (D.rider ? 'Carry on' : 'Start') + '</button></div></div>';
+    else h += '<div class="card"><div class="row"><h3>Your rider form</h3>' + formPill(r) + '</div><p class="small">Sent ' + esc(nice(r.a4 && r.a4.at)) + (r.a5 ? ', with the parent or guardian\'s consent' : '') + '.</p>' +
+      (r.a4 && r.a4.status === 'done' && !V.as ? '<button class="linkbtn" data-act="pdf" data-arg="' + r.a4.ref + '">Your copy (PDF)</button>' : '') + '</div>';
+    var s = r.session;
+    if (s && r.state !== 'form') h += '<div class="card"><div class="row"><h3>Today\'s safety briefing</h3>' + (s.signed ? '<span class="pill ok">Signed</span>' : '') + '</div><p class="small">' + esc(nice(s.date)) + ', ' + esc(s.place) + '</p>' +
+      (s.signed ? '' : s.given ? '<p>The instructor has given the briefing. Sign that you understood it.</p><button class="btn primary" data-act="briefSign">Sign for the briefing</button>' :
+        '<p>The instructor gives the safety briefing in person at the swim platform before your first ride of the day. Then you sign for it here.</p>') + '</div>';
+    if (r.cert && r.cert.no) h += '<h2 class="sec">Your rider pass</h2>' + passHtml(r);
+    h += '<div class="grid2"><div class="card"><h3>Your photo for the certificate</h3><p class="small">' + esc(T.master.photoRule) + '</p><div class="row" style="justify-content:flex-start;align-items:flex-end">' +
+      (r.photo ? '<img class="photo" src="' + r.photo + '" alt="Your photo">' : '<div class="photo"></div>') +
+      '<label class="btn ghost small filebtn">' + (r.photo ? 'Take it again' : 'Take your photo') + '<input type="file" accept="image/*" capture="user" data-photo="me"></label></div></div>';
+    h += '<div class="card"><h3>Before you ride</h3><ul style="padding-left:20px;margin:6px 0">' + T.master.before.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>' + posters(['p30', 'briefing']) + '</div></div>';
+    if (r.cert && r.cert.no && !r.feedback && !V.as) h += '<div class="card"><h3>How was it?</h3><p>' + esc(form('A13').blocks[0].text.replace(/ Hand this form to the instructor or the Captain\./, '')) + '</p><button class="btn ghost" data-act="feedback">Give feedback</button></div>';
+    return h;
+  }
+  function formPill(r) {
+    var st = r.a4 && r.a4.status;
+    return st === 'witness' ? '<span class="pill info">With the instructor</span>' : st === 'principal' ? '<span class="pill info">With the Principal</span>' : st === 'done' ? '<span class="pill ok">Signed</span>' : '';
+  }
+  function statePill(s) {
+    return { form: '<span class="pill warn">Form to finish</span>', witness: '<span class="pill info">Form to witness</span>', course: '<span class="pill info">Course needed</span>',
+      cert: '<span class="pill info">Certificate with the Principal</span>', cleared: '<span class="pill ok">Cleared</span>', refresher: '<span class="pill warn">Refresher due</span>' }[s] || '';
+  }
+  function passHtml(r) {
+    var c = r.cert, g = grid('A9');
+    return '<div class="pass' + (c.expired ? ' out' : '') + '"><div class="top"><span>SABAI &middot; JET SKI RIDER PASS</span>' + (B.test ? '<span>TEST</span>' : '') + '</div><div class="body">' +
+      (c.photo ? '<img class="ph" src="' + c.photo + '" alt="">' : '<div class="ph"></div>') + '<div><p class="nm">' + esc(B.me.name) + '</p><dl><dt>' + esc(g.head[0]) + '</dt><dd>' + esc(c.no) +
+      '</dd><dt>' + esc(g.head[3]) + '</dt><dd>' + esc(nice(c.course)) + '</dd>' + (c.refresher ? '<dt>Refresher</dt><dd>' + esc(nice(c.refresher)) + '</dd>' : '') + '<dt>' + esc(g.head[5]) + '</dt><dd>' + esc(nice(c.until)) +
+      (c.expired ? ' (ran out)' : '') + '</dd></dl></div></div><img class="ship" src="img/sabai-outline.png" alt=""><p class="fine">' + esc(T.master.valid) + ' ' + esc(T.master.record) + '</p></div>';
+  }
+  function posters(keys) {
+    return '<div class="posters">' + keys.map(function (k) { return '<button class="poster" data-act="view" data-arg="img/' + k + '.jpg"><img src="img/' + k + '.jpg" alt="" loading="lazy"><span>' + esc(T.posters[k]) + '</span></button>'; }).join('') + '</div>';
+  }
+
+  /* ---- My role ---- */
+  function role() {
+    var ro = B.role, h = '<div class="card"><ol class="steps">';
+    var dot = function (state, n) { return '<span class="dot ' + state + '">' + (state === 'done' ? '&#10003;' : n) + '</span>'; };
+    var detDone = !ro.a1 || !!ro.details, readDone = ro.read.length === T.sections.length && !ro.changed.length, indDone = !ro.needsInduction || !!ro.induction;
+    var signed = ro.signed && ro.signed.current;
+    h += '<li>' + dot(detDone ? 'done' : 'now', 1) + '<div class="txt"><b>My details and certificates</b><span>' + (ro.a1 ? (ro.details ? 'Saved. You can add to them or change them.' : 'Your qualifications, expiry dates and photos of your certificates.') : 'Your phone number and email.') +
+      '</span></div><button class="btn small ' + (detDone ? 'line' : 'primary') + '" data-act="flow" data-arg="details">' + (detDone ? 'Change' : 'Fill in') + '</button></li>';
+    h += '<li>' + dot(readDone ? 'done' : detDone ? 'now' : '', 2) + '<div class="txt"><b>Read the manual</b><span>' + ro.read.length + ' of ' + T.sections.length + ' sections initialled' +
+      (ro.changed.length ? '. ' + ro.changed.length + ' changed since you read them' : '') + '</span></div><button class="btn small ' + (readDone ? 'line' : 'primary') + '" data-act="flow" data-arg="read">' + (readDone ? 'Open' : ro.read.length ? 'Carry on' : 'Start') + '</button></li>';
+    if (ro.needsInduction) h += '<li>' + dot(indDone ? 'done' : readDone ? 'now' : '', 3) + '<div class="txt"><b>Induction</b><span>' + (ro.induction ? 'Done ' + esc(nice(ro.induction.date)) + '.' : 'The Chief Instructor runs it with you on the iPad.') + '</span></div></li>';
+    h += '<li>' + dot(signed ? 'done' : (readDone && indDone) ? 'now' : '', ro.needsInduction ? 4 : 3) + '<div class="txt"><b>' + (ro.signed && !ro.signed.current ? 'Sign again' : 'Sign for the manual') + '</b><span>' +
+      (signed ? (ro.signed.status === 'ci' ? 'Signed. Waiting for the Chief Instructor to approve you for your role.' : 'Signed and approved.') : 'After reading' + (ro.needsInduction ? ' and your induction' : '') + '.') + '</span></div>' +
+      (!signed ? '<button class="btn small primary" data-act="signManual"' + (readDone && indDone ? '' : ' disabled') + '>Sign</button>' : (ro.signed.status === 'done' ? '<button class="linkbtn" data-act="pdf" data-arg="' + ro.signed.ref + '">PDF</button>' : '')) + '</li>';
+    return h + '</ol></div><p class="small">The manual: ' + esc(T.issue + ', ' + T.date) + '. ' + esc(T.status) + '.</p>';
+  }
+
+  /* ---- Today: the instructor's session ---- */
+  function today() {
+    var td = B.todayPart;
+    if (!td.sessions.length) return '<div class="card"><h3>No session</h3><p>When the Chief Instructor plans a session with you as supervisor and the Principal approves it, it shows here.</p></div>';
+    return td.sessions.map(sessionHtml).join('');
+  }
+  function sessionHtml(s) {
+    var fk = FK.A7, f = s.f, h = '<h2 class="sec">' + esc(nice(f[fk.date])) + ' &middot; ' + esc(f[fk.place]) + '</h2>';
+    if (s.status === 'approve') return h + '<div class="card"><p><span class="pill warn">Waiting for the Principal\'s approval</span></p></div>';
+    h += '<div class="card"><div class="row"><h3>The session as approved</h3><span class="pill ok">Approved</span></div><p class="small">' + esc(s.approvedBy) + '</p><dl class="facts">' +
+      [fk.supervisor, fk.driver, fk.stew, fk.bridge, fk.hand, fk.crane, fk.channel, fk.forecast, fk.vis].filter(function (k) { return f[k]; }).map(function (k) { return '<dt>' + esc(fieldOf('A7', k).label) + '</dt><dd>' + esc(f[k]) + '</dd>'; }).join('') + '</dl></div>';
+    var ck = part('A7', 'Checks before launch').filter(function (b) { return b.t === 'ticks'; })[0].items;
+    h += '<div class="card"><h3>Checks before launch</h3><ul class="ticks2">' + ck.map(function (t, i) {
+      return '<li><button data-act="sesTick" data-arg="' + i + '" data-ref="' + s.ref + '" aria-pressed="' + !!(s.ticks && s.ticks[i]) + '"><span class="box"></span><span>' + esc(t) + '</span></button></li>'; }).join('') + '</ul>' +
+      '<div class="fields" style="margin-top:14px">' + [fk.fuel_out, fk.radio, fk.team, fk.keys, fk.limit].map(function (k) { return fieldHtml(fieldOf('A7', k), 'ses.' + s.ref + '.' + k, f[k], { save: s.ref }); }).join('') + '</div></div>';
+    h += '<div class="card"><div class="row"><h3>Riders</h3><button class="btn small ghost" data-act="newRider" data-ref="' + s.ref + '">New rider on this iPad</button></div><ul class="list">' +
+      (s.riders.length ? s.riders.map(function (r) { return riderRow(s, r); }).join('') : '<li>No riders yet.</li>') + '</ul></div>';
+    var bt = (s.brief && s.brief.ticks) || {}, bitems = part('A6', 'Briefing given (tick each)').filter(function (b) { return b.t === 'ticks'; })[0].items;
+    h += '<div class="card"><div class="row"><h3>The safety briefing</h3><span class="pill">' + (s.brief ? s.brief.rows.length : 0) + ' signed</span></div><p class="small">Given in person at the swim platform. Tick each part as you give it. Then each rider and passenger signs, on their own phone or on this iPad.</p><ul class="ticks2">' +
+      bitems.map(function (t, i) { return '<li><button data-act="briefTick" data-arg="' + i + '" data-ref="' + s.ref + '" aria-pressed="' + !!bt[i] + '"><span class="box"></span><span>' + esc(t) + '</span></button></li>'; }).join('') + '</ul>' +
+      '<details style="margin-top:8px"><summary class="linkbtn">What the briefing covers, and the hand signals</summary><ol>' + T.master.briefing.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ol>' + handSignals() + '</details></div>';
+    var g = grid('A7'), gk = g.keys, out = s.rows.filter(function (r) { return !r[gk[4]]; })[0];
+    h += '<div class="card"><h3>Rides out and back</h3>';
+    if (out) h += '<div class="moving"><div><b>Out: ' + esc(out[gk[1]]) + (out[gk[2]] ? ' with ' + esc(out[gk[2]]) : '') + '</b><div class="small">Since ' + esc(out[gk[3]]) + '</div></div></div><div class="fld"><span class="lab">Back: tap the ' + esc(g.head[5].toLowerCase()) + '</span><div class="chips">' +
+      T.fuel.map(function (x) { return '<button class="chip" data-act="backIn" data-arg="' + esc(x) + '" data-ref="' + s.ref + '">' + esc(x) + '</button>'; }).join('') + '</div></div>';
+    else h += '<div class="fields"><div class="fld"><label for="mvR">' + esc(g.head[1]) + '</label><select class="inp" id="mvR"><option value="">Choose</option>' + s.riders.map(function (r) { return '<option value="' + r.id + '">' + esc(r.name) + '</option>'; }).join('') +
+      '</select></div><div class="fld"><label for="mvP">' + esc(g.head[2]) + '</label><select class="inp" id="mvP"><option value="">None</option>' + s.riders.map(function (r) { return '<option value="' + r.id + '">' + esc(r.name) + '</option>'; }).join('') +
+      '</select></div></div><button class="btn primary" data-act="out" data-ref="' + s.ref + '">Out</button>';
+    if (s.rows.length) h += '<div class="tw" style="margin-top:14px"><table class="tbl"><tr>' + g.head.map(function (x) { return '<th>' + esc(x) + '</th>'; }).join('') + '</tr>' +
+      s.rows.map(function (r) { return '<tr>' + gk.map(function (k) { return '<td>' + esc(r[k]) + '</td>'; }).join('') + '</tr>'; }).join('') + '</table></div>';
+    h += '</div><div class="btns"><button class="btn line wide" data-act="close" data-ref="' + s.ref + '">Close the session</button></div>';
+    return h;
+  }
+  function riderRow(s, r) {
+    var acts = [], given = !!s.brief && part('A6', 'Briefing given (tick each)')[0].items.every(function (x, i) { return s.brief.ticks[i]; });
+    if (r.state === 'form') acts.push('<button class="btn small primary" data-act="handOver" data-arg="' + r.id + '" data-name="' + esc(r.name) + '">Fill in on this iPad</button>');
+    if (r.state === 'witness' && (has('instructor') || has('Chief Instructor'))) acts.push('<button class="btn small primary" data-act="witness" data-arg="' + r.a4 + '">Check and witness</button>');
+    if (r.state !== 'form' && r.state !== 'witness' && !r.briefed && given) acts.push('<button class="btn small gold" data-act="briefSignFor" data-arg="' + r.id + '" data-name="' + esc(r.name) + '" data-ref="' + s.ref + '">Briefing signature</button>');
+    if (r.state === 'course' && !r.courseDone && (has('instructor') || has('Chief Instructor'))) acts.push('<button class="btn small ghost" data-act="course" data-arg="' + r.id + '" data-ref="' + s.ref + '" data-name="' + esc(r.name) + '" data-type="' + esc(r.type) + '" data-photo="' + (r.photo ? 1 : '') + '">Course complete</button>');
+    if (r.state === 'refresher' && !r.refresherDone && (has('instructor') || has('Chief Instructor'))) acts.push('<button class="btn small ghost" data-act="refresher" data-arg="' + r.id + '" data-ref="' + s.ref + '" data-name="' + esc(r.name) + '" data-type="' + esc(r.type) + '">Refresher passed</button>');
+    var flags = [statePill(r.state), r.briefed ? '<span class="pill ok">Briefing signed</span>' : '', r.under18 ? '<span class="pill info">Under 18</span>' : '', r.health ? '<span class="pill warn">Health: see form</span>' : '',
+      r.swimNo ? '<span class="pill bad">Cannot swim 50 m</span>' : '', r.refresherDone ? '<span class="pill ok">Refresher passed</span>' : ''].filter(String).join('');
+    return '<li><div class="who2"><b>' + esc(r.name) + '</b><span>' + esc(r.type || '') + (r.cert && r.cert.until ? ' &middot; valid until ' + esc(nice(r.cert.until)) : '') + '</span><div class="flags">' + flags + '</div></div><div class="acts">' + acts.join('') + '</div></li>';
+  }
+  function handSignals() {
+    var sigs = [['sig-ok-v2', 'I am OK after a fall'], ['sig-help', 'I need help'], ['sig-stop', 'Stop your engine'], ['sig-recall', 'Come back now']];
+    return '<div class="sigpics">' + sigs.map(function (x) { return '<figure><img src="img/' + x[0] + '.jpg" alt="" loading="lazy"><figcaption>' + esc(x[1]) + '</figcaption></figure>'; }).join('') + '</div>';
+  }
+
+  /* ---- Crew and places: the Chief Instructor ---- */
+  function crew() {
+    var c = B.crew, h = '<h2 class="sec">Crew</h2><div class="card"><ul class="list">';
+    h += c.staff.map(function (x) {
+      var acts = [];
+      if (x.needsInduction && !x.induction) acts.push('<button class="btn small ' + (x.read === x.of ? 'primary' : 'ghost') + '" data-act="flow" data-arg="induct" data-person="' + x.id + '">Run induction</button>');
+      if (x.signed && x.signed.status === 'ci') acts.push('<button class="btn small gold" data-act="approveStaff" data-arg="' + x.id + '">Approve for the role</button>');
+      var ex = x.expiry.map(function (e) { return '<span class="pill ' + (e.state === 'expired' ? 'bad' : e.state === 'soon' ? 'warn' : 'ok') + '">' + esc(e.what) + (e.state === 'expired' ? ' ran out ' : ' to ') + esc(nice(e.date)) + '</span>'; }).join('');
+      return '<li><div class="who2"><b>' + esc(x.name) + '</b><span>' + esc(x.roles.join(', ')) + '</span><div class="flags"><span class="pill' + (x.read === x.of && !x.changed ? ' ok' : '') + '">Manual ' + x.read + ' of ' + x.of + '</span>' +
+        (x.changed ? '<span class="pill warn">' + x.changed + ' changed</span>' : '') + (x.needsInduction ? '<span class="pill' + (x.induction ? ' ok' : '') + '">Induction ' + (x.induction ? esc(nice(x.induction.date)) : 'to run') + '</span>' : '') +
+        '<span class="pill' + (x.signed && x.signed.status === 'done' && x.signed.current ? ' ok' : '') + '">' + (x.signed ? (x.signed.current ? (x.signed.status === 'done' ? 'Signed and approved' : 'Signed') : 'Sign again') : 'Not signed') + '</span>' + ex + '</div></div><div class="acts">' + acts.join('') + '</div></li>';
+    }).join('') || '<li>No crew with a jet ski role yet. The Mate adds them on Records.</li>';
+    h += '</ul></div>';
+    h += '<h2 class="sec">Sessions</h2><div class="card"><div class="row"><p class="small" style="margin:0">Planned here, approved by the Principal, run from Today.</p><button class="btn primary small" data-act="flow" data-arg="plan">Plan a session</button></div><ul class="list">' +
+      c.plans.map(function (p) { return '<li><div class="who2"><b>' + esc(nice(p.date)) + '</b><span>' + esc(p.place) + '</span></div><span class="pill' + (p.status === 'closed' ? '' : p.status === 'approve' ? ' warn' : ' ok') + '">' + esc({ approve: 'Waiting for approval', approved: 'Approved', open: 'Under way', closed: 'Closed' }[p.status] || p.status) + '</span></li>'; }).join('') + '</ul></div>';
+    h += '<div class="grid2"><div class="card"><div class="row"><h3>Site checks</h3><button class="btn small ghost" data-act="flow" data-arg="site">New site check</button></div><p class="small">' + esc(form('A8').blocks[0].text) + '</p><ul class="list">' +
+      c.sites.map(function (x) { return '<li><div class="who2"><b>' + esc(x.place) + '</b><span>' + esc(nice(x.date)) + '</span></div><span class="pill' + (x.status === 'done' ? ' ok' : ' warn') + '">' + (x.status === 'done' ? 'Approved' : 'With the Principal') + '</span></li>'; }).join('') + '</ul></div>';
+    var g = grid('A12');
+    h += '<div class="card"><div class="row"><h3>Staff briefings and drills</h3><button class="btn small ghost" data-act="training">Add</button></div><p class="small">' + esc(form('A12').blocks[0].text) + '</p><ul class="list">' +
+      c.training.map(function (x) { return '<li><div class="who2"><b>' + esc(x.f[g.keys[1]] || '') + ': ' + esc(x.f[g.keys[3]] || '') + '</b><span>' + esc(nice(x.f[g.keys[0]])) + ' &middot; ' + esc(x.f[g.keys[2]] || '') + '</span></div></li>'; }).join('') + '</ul></div></div>';
+    return h;
+  }
+
+  /* ---- To sign: the Principal and the Captain ---- */
+  function toSign() {
+    if (!B.sign.length) return '<div class="card"><h3>Nothing to sign</h3><p>An email arrives when something is waiting for you.</p></div>';
+    return '<div class="card"><ul class="list">' + B.sign.map(function (i) {
+      return '<li><div class="who2"><b>' + esc(i.what) + (i.name ? ': ' + esc(i.name) : '') + '</b><span>' + (i.at ? 'Waiting since ' + esc(nice(i.at)) : 'Once for each issue of the manual') + '</span></div><div class="acts"><button class="btn small primary" data-act="openSign" data-arg="' + i.ref + '" data-kind="' + i.kind + '">Open</button></div></li>';
+    }).join('') + '</ul></div>';
+  }
+
+  /* ---- Records ---- */
+  function records() {
+    var R = B.records, sub = V.rsub || 'list', h = '';
+    var tabs = [['list', 'Records']].concat(R.admin ? [['people', 'People and links'], ['settings', 'Test mode']] : []);
+    if (tabs.length > 1) h += '<div class="chips" style="margin-bottom:16px">' + tabs.map(function (t) { return '<button class="chip" data-act="rsub" data-arg="' + t[0] + '" aria-pressed="' + (sub === t[0]) + '">' + t[1] + '</button>'; }).join('') + '</div>';
+    if (sub === 'list') {
+      if (R.open.length) h += '<div class="card"><h3>Complaints to answer</h3><ul class="list">' + R.open.map(function (x) { return '<li><div class="who2"><b>' + esc(x.name || 'A rider') + '</b><span>' + esc(x.text[1]) + '</span></div><button class="btn small primary" data-act="complaint" data-arg="' + x.ref + '">Answer</button></li>'; }).join('') + '</ul></div>';
+      if (R.admin) h += '<div class="btns" style="margin:0 0 14px"><button class="btn ghost" data-act="flow" data-arg="accident">Record an accident, incident or near miss</button></div>';
+      var day = '';
+      h += '<div class="card"><ul class="list">' + (R.list.map(function (r) {
+        var d = String(r.at).slice(0, 10), head = d !== day ? '<li style="border:0;padding:18px 0 2px"><span class="dayhead">' + esc(nice(d)) + '</span></li>' : '';
+        day = d;
+        return head + '<li><div class="who2"><b>' + esc(PLAIN[r.form]) + (r.name ? ': ' + esc(r.name) : '') + '</b><span>' + esc(r.status) + ' &middot; ' + esc(r.ref) + '</span></div>' + (r.pdf ? '<button class="btn small line" data-act="pdf" data-arg="' + r.ref + '">PDF</button>' : '') + '</li>';
+      }).join('') || '<li>No records yet.</li>') + '</ul></div>';
+    } else if (sub === 'people') {
+      h += '<div class="btns" style="margin:0 0 14px"><button class="btn primary" data-act="addPerson">Add a person</button></div><div class="card"><ul class="list">' + R.people.map(function (p) {
+        return '<li><div class="who2"><b>' + esc(p.name) + '</b><span>' + esc([p.roles.join(', '), p.type, p.rides ? 'rides' : ''].filter(String).join(' \u00b7 ')) + '</span>' + (p.state ? '<div class="flags">' + statePill(p.state) + '</div>' : '') +
+          '</div><div class="acts"><button class="btn small line" data-act="link" data-arg="' + p.id + '">Link</button></div></li>';
+      }).join('') + '</ul></div>';
+    } else {
+      h += '<div class="card"><div class="row" style="flex-wrap:nowrap;align-items:flex-start"><div><h3>Test mode</h3><p class="small">While it is on, everything saved is marked TEST and every email goes only to the Mate\'s own mailbox. Turn it off only after the RYA inspector, the Principal and JMS have approved the forms.</p></div>' +
+        '<label class="sw"><input type="checkbox" data-act="testMode"' + (R.test ? ' checked' : '') + ' aria-label="Test mode"></label></div></div>' +
+        '<div class="card"><h3>Remove test records</h3><p class="small">Takes every TEST record, made-up person and their files off the Sheet and Drive. Your own link stays.</p><button class="btn danger" data-act="removeTests"' + (R.test ? '' : ' disabled') + '>Remove test records</button></div>';
+    }
+    return h;
+  }
+
+  /* ---------------------------------------------------------------- fields */
+  /** One box of a form, labelled as on the printed form. path: where the answer is kept in D. */
+  function fieldHtml(f, path, val, opt) {
+    opt = opt || {};
+    if (val === undefined) val = get(path);
+    var id = 'f_' + path.replace(/\W/g, '_'), lab = nf(f.type === 'choice' ? (f.name || f.label) : f.label), sv = opt.save ? ' data-save="' + opt.save + '"' : '';
+    var wide = f.type === 'long' || /operating area/i.test(f.label) || (f.type === 'choice' && f.opts.length > 3) ? ' full' : '';
+    var h = '<div class="fld' + wide + '" data-for="' + esc(path) + '">';
+    if (f.type === 'choice') {
+      var vals = f.multi ? [].concat(val || []) : [val];
+      h += '<span class="lab">' + esc(lab) + '</span><div class="chips">' + f.opts.map(function (o) {
+        return '<button type="button" class="chip" data-chip="' + esc(path) + '" data-v="' + esc(o) + '"' + (f.multi ? ' data-multi="1"' : '') + sv + ' aria-pressed="' + (vals.indexOf(o) >= 0) + '">' + esc(o) + '</button>';
+      }).join('') + '</div>';
+    } else if (f.type === 'fuel') {
+      val = val || {};
+      h += '<span class="lab">' + esc(lab) + '</span><div class="chips">' + T.fuel.map(function (o) { return '<button type="button" class="chip" data-chip="' + esc(path) + '.level" data-v="' + esc(o) + '"' + sv + ' aria-pressed="' + (val.level === o) + '">' + esc(o) + '</button>'; }).join('') +
+        '</div><div class="withnow" style="margin-top:8px"><input class="inp" type="time" id="' + id + '" data-path="' + esc(path) + '.time" value="' + esc(val.time || '') + '"' + sv + ' aria-label="Time"><button type="button" class="btn ghost" data-now="' + esc(path) + '.time"' + sv + '>Now</button></div>';
+    } else if (f.type === 'time') {
+      h += '<label for="' + id + '">' + esc(lab) + '</label><div class="withnow"><input class="inp" type="time" id="' + id + '" data-path="' + esc(path) + '" value="' + esc(val || '') + '"' + sv + '><button type="button" class="btn ghost" data-now="' + esc(path) + '"' + sv + '>Now</button></div>';
+    } else if (f.type === 'long') {
+      h += '<label for="' + id + '">' + esc(lab) + '</label><textarea class="inp" id="' + id + '" data-path="' + esc(path) + '"' + sv + '>' + esc(val || '') + '</textarea>';
+    } else {
+      var type = { date: 'date', datetime: 'datetime-local', email: 'email', tel: 'tel' }[f.type] || 'text';
+      var ac = /full name|^name$/i.test(f.label) ? ' autocomplete="name"' : f.type === 'email' ? ' autocomplete="email"' : f.type === 'tel' ? ' autocomplete="tel"' : '';
+      h += '<label for="' + id + '">' + esc(lab) + '</label><input class="inp" type="' + type + '" id="' + id + '" data-path="' + esc(path) + '" value="' + esc(val || '') + '"' + ac + (opt.readonly ? ' readonly' : '') + sv + '>';
+    }
+    return h + '</div>';
+  }
+  function fieldsHtml(items, base, opt) {
+    opt = opt || {};
+    return '<div class="fields">' + items.filter(function (f) { return f.type !== 'sig' && (!opt.only || opt.only.indexOf(f.k) >= 0); }).map(function (f) {
+      return fieldHtml(f, base + '.' + f.k, undefined, { readonly: opt.locked && opt.locked.indexOf(f.k) >= 0 });
+    }).join('') + '</div>';
+  }
+  /** A finger signature. The name beside it on the PDF is the one already given, so nothing is typed twice. */
+  function sigBlock(name, title, who, h) {
+    return '<div class="sigblock"><h4>' + esc(title) + '</h4><div class="sighead"><span>' + (who ? 'Signing as <b>' + esc(who) + '</b>' : 'Signing as the parent or guardian named above') +
+      '</span><button type="button" class="linkbtn" data-clear="' + name + '">Clear</button></div><div class="sigpad" data-pad="' + name + '"' + (h ? ' style="height:' + h + 'px"' : '') + '><div class="line"></div><span class="hint">Sign here with your finger</span><canvas aria-label="Signature box"></canvas></div>' +
+      '<p class="when">The date and time go beside your signature when you send.</p></div>';
+  }
+  function sigPad(box) {
+    var cv = box.querySelector('canvas'), cx = null, len = 0, last = null, ratio = Math.max(1, window.devicePixelRatio || 1);
+    function reset() {
+      var r = cv.getBoundingClientRect();
+      cv.width = Math.max(1, Math.round(r.width * ratio)); cv.height = Math.max(1, Math.round(r.height * ratio));
+      cx = cv.getContext('2d'); cx.setTransform(ratio, 0, 0, ratio, 0, 0); cx.lineCap = 'round'; cx.lineJoin = 'round'; cx.lineWidth = 2.6; cx.strokeStyle = '#0E1E30'; cx.fillStyle = '#0E1E30';
+      len = 0; box.classList.remove('inked');
+    }
+    function at(e) { var r = cv.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+    cv.addEventListener('pointerdown', function (e) { e.preventDefault(); try { cv.setPointerCapture(e.pointerId); } catch (err) {} last = at(e); cx.beginPath(); cx.arc(last.x, last.y, 1.3, 0, 7); cx.fill(); box.classList.add('inked'); box.classList.remove('bad'); });
+    cv.addEventListener('pointermove', function (e) { if (!last) return; var q = at(e); cx.beginPath(); cx.moveTo(last.x, last.y); cx.lineTo(q.x, q.y); cx.stroke(); len += Math.hypot(q.x - last.x, q.y - last.y); last = q; });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (n) { cv.addEventListener(n, function () { last = null; }); });
+    reset();
+    return { clear: reset, length: function () { return len; }, data: function () { return cv.toDataURL('image/png'); }, box: box };
+  }
+  function sigData(name) {   // the signature as a PNG, or '' with the box marked
+    var p = PADS[name];
+    if (!p || p.length() < 25) { if (p) { p.box.classList.add('bad'); p.box.scrollIntoView({ behavior: 'smooth', block: 'center' }); } return ''; }
+    return p.data();
+  }
+  function missing(paths) {   // marks the boxes still empty; returns how many
+    var n = 0;
+    each('.fld.bad', function (e) { e.classList.remove('bad'); });
+    paths.forEach(function (p) {
+      var v = get(p), empty = v == null || String(v).trim() === '' || (Array.isArray(v) && !v.length);
+      if (empty) { n++; var el = document.querySelector('[data-for="' + p + '"]'); if (el) el.classList.add('bad'); }
+    });
+    var first = document.querySelector('.fld.bad'); if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return n;
+  }
+
+  /* ---------------------------------------------------------------- flows: one thing at a time, with a progress bar */
+  var FLOWS = {};
+  function openFlow(name, opt) { V.flow = name; V.step = (opt && opt.step) || 0; V.fopt = opt || {}; render(); window.scrollTo(0, 0); }
+  function closeFlow() { V.flow = null; V.fopt = {}; render(); window.scrollTo(0, 0); }
+  function renderFlow() {
+    var F = FLOWS[V.flow], steps = F.steps(), s = steps[Math.min(V.step, steps.length - 1)];
+    var h = '<div class="flow"><div class="fhead"><div class="wrap"><div class="top"><span class="t">' + esc(F.title) + (B.test ? ' &middot; TEST' : '') + '</span><button class="x" data-act="closeFlow">' + esc(F.closeLabel || 'Close') + '</button></div>' +
+      (steps.length > 1 ? '<div class="prog">' + steps.map(function (x, i) { return '<i class="' + (i < V.step ? 'done' : i === V.step ? 'on' : '') + '"></i>'; }).join('') + '</div><div class="plabel"><span>' + esc(s.label) + '</span><span>' + (V.step + 1) + ' of ' + steps.length + '</span></div>' : '') +
+      '</div></div><div class="fbody"><div class="wrap">' + s.html() + '</div></div>';
+    if (!s.noDock) h += '<div class="dock"><div class="wrap">' + (V.step > 0 ? '<button class="btn ghost" data-act="prev">Back</button>' : '') +
+      '<button class="btn primary" data-act="next">' + esc(s.next || 'Next') + '</button></div></div>';
+    app.innerHTML = h + '</div>';
+    after();
+  }
+  function goNext() {
+    var steps = FLOWS[V.flow].steps(), s = steps[V.step];
+    var err = s.check ? s.check() : '';
+    if (err) { if (err !== true) toast(err, 5000); return; }
+    if (s.send) return s.send();
+    V.step = Math.min(V.step + 1, steps.length - 1); render(); window.scrollTo(0, 0);
+  }
+
+  /* ---- the rider's form ---- */
+  FLOWS.rider = {
+    title: 'Your rider form',
+    steps: function () {
+      var R = D.rider = D.rider || { f: {}, health: {}, initials: {} }, fk = FK.A4;
+      if (!R.started) {   // details the Mate already has carry over
+        R.started = stamp();
+        if (B.me.name) R.f[fk.name] = B.me.name;
+        if (B.me.email) R.f[fk.email] = B.me.email;
+        if (B.me.mobile) R.f[fk.mobile] = B.me.mobile;
+        if (B.me.dob) R.f[fk.dob] = B.me.dob;
+        if (B.me.type) R.f[fk.type] = B.me.type;
+        saveDraft();
+      }
+      var a = age(R.f[fk.dob]), u18 = a !== null && a < 18;
+      var out = [{ label: 'Before you ride', html: function () {
+        return '<h2>Before you ride</h2><p>' + esc(form('A4').blocks[0].text) + '</p><div class="statement"><ul>' + T.master.before.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>' +
+          '<h3 class="sub">The posters</h3><p class="small">Tap a poster to see it full size.</p>' + posters(['p30', 'briefing']);
+      } }];
+      T.rider.forEach(function (x) {
+        var step = { label: x.label, html: function () { return riderStep(x); } };
+        if (x.id === 'about') step.check = function () {
+          if (missing([fk.name, fk.dob, fk.type, fk.swim].map(function (k) { return 'rider.f.' + k; }))) return 'Please fill in the boxes marked in red.';
+          var ag = age(get('rider.f.' + fk.dob));
+          if (ag === null || ag < 0 || ag > 110) return 'Check the date of birth.';
+          if (ag < T.master.minAge) return T.master.ageRule;
+          var em = get('rider.f.' + fk.email); if (em && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) return 'That email address does not look right.';
+        };
+        if (x.id === 'health') step.check = function () {
+          var items = x.blocks.filter(function (b) { return b.t === 'health'; })[0].items;
+          return missing(items.map(function (it) { return 'rider.health.' + it.k + '.yn'; })) ? 'Please answer Yes or No to each question.' : '';
+        };
+        if (x.id === 'rules' || x.id === 'risks') step.check = function () { return get('rider.initials.' + x.id) ? '' : 'Please initial this part first.'; };
+        if (x.id === 'sign') {
+          step.next = u18 ? 'Next: parent or guardian' : 'Send';
+          step.check = function () { var d = sigData('rider'); if (!d) return 'Please sign in the box with your finger.'; V.sigRider = d; return ''; };
+          if (!u18) step.send = sendRider;
+        }
+        out.push(step);
+      });
+      if (u18) out.push({ label: 'Parent or guardian', next: 'Send', html: guardianStep, check: function () {
+        var k5 = FK.A5;
+        if (missing([k5.guardian, 'relationship_to_the_child', k5.phone, k5.adult].map(function (k) { return 'rider.a5.' + k; }))) return 'Please fill in the boxes marked in red.';
+        var d = sigData('guardian'); if (!d) return 'Please sign in the box with your finger.';
+        V.sigGuardian = d; return '';
+      }, send: sendRider });
+      return out;
+    }
+  };
+  function riderStep(x) {
+    var h = '<h2>' + esc(x.h.replace(/^\d+\.\s*/, '')) + '</h2>', fk = FK.A4;
+    x.blocks.forEach(function (b) {
+      if (b.t === 'fields') h += fieldsHtml(b.items, 'rider.f');
+      else if (b.t === 'health') h += '<div class="card">' + b.items.map(function (it) {
+        var p = 'rider.health.' + it.k, yn = get(p + '.yn');
+        return '<div class="hq fld" data-for="' + p + '.yn"><div class="q"><b>' + esc(it.label) + '</b><div class="chips">' + ['Yes', 'No'].map(function (o) {
+          return '<button type="button" class="chip' + (o === 'Yes' ? ' yes' : '') + '" data-chip="' + p + '.yn" data-v="' + o + '" data-rerender="1" aria-pressed="' + (yn === o) + '">' + o + '</button>'; }).join('') + '</div></div>' +
+          (yn === 'Yes' ? '<textarea class="inp" data-path="' + p + '.details" placeholder="' + esc(b.head[3]) + '" aria-label="' + esc(b.head[3]) + '">' + esc(get(p + '.details') || '') + '</textarea>' : '') + '</div>';
+      }).join('') + '</div>';
+      else if (b.t === 'p') h += '<p>' + esc(b.text) + '</p>';
+      else if (b.t === 'ol' || b.t === 'ul') h += '<div class="statement"><' + b.t + '>' + b.items.map(function (i) { return '<li>' + esc(i) + '</li>'; }).join('') + '</' + b.t + '></div>';
+      else if (b.t === 'sign') h += sigBlock('rider', b.roles[0], get('rider.f.' + fk.name));
+    });
+    if (x.id === 'risks') h = h.replace('<p>', '<div class="statement"><p>').replace('</p>', '</p></div>');
+    if (x.id === 'rules' || x.id === 'risks') {
+      var at = get('rider.initials.' + x.id), ini = initials(get('rider.f.' + fk.name));
+      h += '<div class="initial">' + (at ? '<span class="stamp">' + esc(ini) + ' <small>' + esc(nice(at)) + '</small></span><p>Initialled. Tap Next.</p><button class="linkbtn" data-act="uninitial" data-arg="' + x.id + '">Undo</button>' :
+        '<p>' + (x.id === 'rules' ? 'I have read every rule above and will follow them.' : 'I have read the risks above.') + '</p><button class="btn gold" data-act="initial" data-arg="' + x.id + '">Initial here: ' + esc(ini) + '</button>') + '</div>';
+    }
+    return h;
+  }
+  function guardianStep() {
+    var k5 = FK.A5, R = D.rider, a5 = R.a5 = R.a5 || {}, bl = form('A5').blocks, seen = 0;
+    a5[k5.child] = R.f[FK.A4.name]; a5[k5.dob] = R.f[FK.A4.dob];
+    var h = '<div class="note info"><b>Please hand ' + (V.as ? 'the iPad' : 'this phone or iPad') + ' to the rider\'s parent or guardian.</b> Riders under 18 need their consent as well.</div><h2>Parent or guardian</h2><p>' + esc(bl[0].text.replace(/, as well as Form A\d+\./, '.')) + '</p>';
+    bl.forEach(function (b) {
+      if (b.t === 'fields') { h += fieldsHtml(b.items, 'rider.a5', { locked: seen === 0 ? [k5.child, k5.dob] : [] }); seen++; }
+      else if (b.t === 'h') h += '<h3 class="sub">' + esc(b.text) + '</h3>';
+      else if (b.t === 'ul') h += '<div class="statement"><ul>' + b.items.map(function (i) { return '<li>' + esc(i) + '</li>'; }).join('') + '</ul></div>';
+      else if (b.t === 'sign') h += sigBlock('guardian', b.roles[0], a5[k5.guardian] || '');
+    });
+    return h;
+  }
+  function sendRider() {
+    var R = D.rider, u18 = age(R.f[FK.A4.dob]) < 18;
+    var a = { f: R.f, health: R.health, initials: R.initials, sig: V.sigRider, a5: u18 ? { f: R.a5, sig: V.sigGuardian } : null };
+    if (V.as) a.as = V.as.id;
+    send('riderForm', a, 'Sending your form').then(function (r) {
+      delete D.rider; saveDraft();
+      V.flow = 'riderDone'; V.step = 0; render(); window.scrollTo(0, 0);
+      if (!r.queued) api(V.as ? 'riderBoot' : 'boot', V.as ? { as: V.as.id } : {}).then(function (b) { B = b; });
+    }, function (e) { toast(e.message, 6000); });
+  }
+  FLOWS.riderDone = { title: 'Your rider form', closeLabel: 'Done', steps: function () { return [{ label: 'Done', noDock: true, html: function () {
+    return '<h2>Thank you</h2><p class="lead">Your form is with the instructor. They go through it with you at the swim platform and give you the safety briefing there, in person.</p>' +
+      (V.as ? '<div class="note info"><b>Please hand the iPad back to the instructor.</b></div><button class="btn primary wide" data-act="handBack">Back to the instructor</button>' : '<button class="btn primary wide" data-act="closeFlow">Back to my page</button>') +
+      '<h3 class="sub">The hand signals</h3><p class="small">The instructor shows you these at the briefing.</p>' + handSignals();
+  } }]; } };
+
+  /* ---- My details and certificates ---- */
+  FLOWS.details = {
+    title: 'My details and certificates',
+    steps: function () {
+      var ro = B.role, Dt = D.details = D.details || { f: (ro.details && ro.details.f) || {}, files: [], mobile: B.me.mobile, email: B.me.email };
+      var done = function () { delete D.details; saveDraft(); closeFlow(); boot(); };
+      if (!ro.a1) return [{ label: 'My details', next: 'Save', html: function () {
+        return '<h2>My details</h2><p>So the Mate and the instructor can reach you.</p><div class="fields">' + fieldHtml({ type: 'tel', label: 'Mobile' }, 'details.mobile') + fieldHtml({ type: 'email', label: 'Email' }, 'details.email') + '</div>';
+      }, send: function () { send('details', { mobile: Dt.mobile, email: Dt.email }, 'Saving').then(done, function (e) { toast(e.message); }); } }];
+      var card = form('A1').blocks.filter(function (b) { return b.t === 'staffcard'; })[0].items;
+      var mine = ['post_and_rya_role_as_listed_above', 'rya_membership_number', 'rya_pw_instructor_certificate_number', 'instructor_certificate_expiry', 'other_rya_qualifications',
+        'first_aid_certificate_type', 'first_aid_expiry', 'safeguarding_training_date'];
+      return [{ label: 'My details', html: function () {
+        return '<h2>My details and certificates</h2><p>' + esc(form('A1').blocks[0].text) + '</p>' + fieldsHtml(card, 'details.f', { only: mine });
+      } }, { label: 'Certificates', next: 'Save', html: function () {
+        return '<h2>Photos of your certificates</h2><p>Your RYA instructor certificate, first aid certificate and any other qualification for your role. They go in the centre file.</p>' +
+          '<div class="posters">' + Dt.files.map(function (d) { return '<div class="poster"><img src="' + d + '" alt=""></div>'; }).join('') + '</div>' +
+          '<label class="btn ghost filebtn">Add a photo<input type="file" accept="image/*" data-photo="cert"></label>' + (ro.details && ro.details.files ? '<p class="small">' + ro.details.files + ' already saved.</p>' : '');
+      }, send: function () { send('details', { f: Dt.f, files: Dt.files }, 'Saving').then(done, function (e) { toast(e.message); }); } }];
+    }
+  };
+
+  /* ---- the manual, one section per screen ---- */
+  FLOWS.read = {
+    title: 'The manual',
+    steps: function () {
+      var ro = B.role, list = [{ label: 'Contents', html: function () {
+        return '<h2>The manual</h2><p>' + esc(T.issue + ', ' + T.date) + '. One section at a time: read it, then initial it. Your place is kept.</p><div class="card"><ul class="list">' + T.sections.map(function (s, i) {
+          var done = ro.read.indexOf(s.key) >= 0, ch = ro.changed.indexOf(s.key) >= 0;
+          return '<li><div class="who2"><b>' + esc(s.key) + ' &middot; ' + esc(s.title) + '</b></div><div class="acts">' + (done ? '<span class="pill ok">Initialled</span>' : ch ? '<span class="pill warn">Changed</span>' : '') +
+            '<button class="btn small ' + (done ? 'line' : 'primary') + '" data-act="goto" data-arg="' + (i + 1) + '">' + (done ? 'Read again' : 'Read') + '</button></div></li>';
+        }).join('') + '</ul></div>';
+      }, next: 'Go to the next section to read', check: function () {
+        var i = T.sections.map(function (s) { return ro.read.indexOf(s.key) >= 0; }).indexOf(false); V.step = i < 0 ? 1 : i + 1; render(); window.scrollTo(0, 0); return true;
+      } }];
+      T.sections.forEach(function (s, i) {
+        list.push({ label: s.key + ' ' + s.title, next: i === T.sections.length - 1 ? 'Finish' : 'Next section', html: function () {
+          var done = ro.read.indexOf(s.key) >= 0;
+          return '<p class="secno">' + (/^\d+$/.test(s.key) ? 'Section ' : 'Appendix ') + esc(s.key) + '</p><h2>' + esc(s.title) + '</h2><div class="manual">' + ((B.manual || {})[s.key] || '').replace(/<table/g, '<div class="tw"><table').replace(/<\/table>/g, '</table></div>') + '</div>' +
+            (s.posters.length ? '<h3 class="sub">The posters</h3><p class="small">Tap a poster to see it full size.</p>' + posters(s.posters) : '') +
+            '<div class="initial">' + (done ? '<span class="stamp">' + esc(B.me.initials) + ' <small>Initialled</small></span><p>You have read this section.</p>' :
+              '<p>I have read and understood this section.</p><button class="btn gold" data-act="initSec" data-arg="' + s.key + '">Initial here: ' + esc(B.me.initials) + '</button>') + '</div>';
+        }, check: function () { return ro.read.indexOf(s.key) >= 0 ? '' : 'Please initial this section first.'; },
+          send: i === T.sections.length - 1 ? function () { closeFlow(); } : null });
+      });
+      return list;
+    }
+  };
+
+  /* ---- the Chief Instructor's induction, then both sign ---- */
+  FLOWS.induct = {
+    title: 'Induction',
+    steps: function () {
+      var who = B.crew.staff.filter(function (x) { return x.id === V.fopt.person; })[0];
+      var I = D.induct = D.induct && D.induct.person === who.id ? D.induct : { person: who.id, ticks: {} };
+      var roles = who.inductRoles, A2 = form('A2');
+      var blocks = T.induction.map(function (b) { return { h: b.h, items: b.items.map(function (it) { return Object.assign({ due: it.roles === '*' || it.roles.some(function (r) { return roles.indexOf(r) >= 0; }) }, it); }) }; });
+      var due = [].concat.apply([], blocks.map(function (b) { return b.items.filter(function (i) { return i.due; }); }));
+      return [{ label: 'Items', html: function () {
+        return '<h2>' + esc(who.name) + '</h2><p>' + esc(A2.blocks[0].text.replace(/ ?Circle the roles first\./, '')) + '</p><p><b>' + esc(fieldOf('A2', FK.A2.roles).name || 'Roles') + ':</b> ' + esc(roles.join(', ')) + '</p>' +
+          blocks.map(function (b) { return '<div class="card"><h3>' + esc(b.h) + '</h3><ul class="ticks2">' + b.items.map(function (it) {
+            return '<li class="' + (it.due ? '' : 'notfor') + '"><button data-act="indTick" data-arg="' + it.k + '" aria-pressed="' + !!I.ticks[it.k] + '"' + (it.due ? '' : ' disabled') + '><span class="box"></span><span>' + esc(it.text) + '</span></button></li>'; }).join('') + '</ul></div>'; }).join('');
+      }, check: function () { var left = due.filter(function (i) { return !I.ticks[i.k]; }).length; return left ? 'Tick every item for these roles first (' + left + ' left).' : ''; } },
+      { label: 'Sign', next: 'Save the induction', html: function () {
+        var decl = A2.blocks.filter(function (b) { return b.t === 'p'; }).slice(-1)[0];
+        return '<h2>Declaration</h2><div class="statement"><p>' + esc(decl.text) + '</p></div>' + sigBlock('person', fieldOf('A2', FK.A2.sig_person).label.replace(/: name and signature$/, ''), who.name) +
+          sigBlock('ci', fieldOf('A2', FK.A2.sig_ci).label.replace(/: name and signature$/, ''), B.me.name);
+      }, send: function () {
+        var a = sigData('person'), b = sigData('ci');
+        if (!a || !b) return toast('Both of you sign in the boxes.');
+        send('induct', { person: who.id, ticks: I.ticks, sigPerson: a, sigCi: b }, 'Saving the induction').then(function () { delete D.induct; saveDraft(); closeFlow(); boot(); toast('Induction saved. ' + who.name + ' can now sign for the manual.', 5000); }, function (e) { toast(e.message, 6000); });
+      } }];
+    }
+  };
+
+  /* ---- planning a session ---- */
+  FLOWS.plan = {
+    title: 'Plan a session',
+    steps: function () {
+      var P = D.plan = D.plan || { f: {}, riders: [] }, fk = FK.A7;
+      if (!P.f[fk.date]) P.f[fk.date] = ymd();
+      return [{ label: 'Place and team', html: function () {
+        var staff = B.todayPart ? B.todayPart.staff : [];
+        var pick = function (k) { var f = fieldOf('A7', k); return '<div class="fld" data-for="plan.f.' + k + '"><label for="pk_' + k + '">' + esc(f.label) + '</label><input class="inp" id="pk_' + k + '" list="staffnames" data-path="plan.f.' + k + '" value="' + esc(P.f[k] || '') + '"></div>'; };
+        return '<h2>The session</h2><p>The Principal approves it before anyone rides.</p><datalist id="staffnames">' + staff.map(function (x) { return '<option value="' + esc(x.name) + '">'; }).join('') + '</datalist>' +
+          '<div class="fields">' + fieldHtml(fieldOf('A7', fk.date), 'plan.f.' + fk.date) + '<div class="full">' + fieldHtml(fieldOf('A7', fk.place), 'plan.f.' + fk.place) + '</div>' +
+          [fk.supervisor, fk.driver, fk.stew, fk.bridge, fk.hand, fk.crane].map(pick).join('') + [fk.channel, fk.forecast, fk.vis].map(function (k) { return fieldHtml(fieldOf('A7', k), 'plan.f.' + k); }).join('') + '</div>';
+      }, check: function () { return missing([fk.date, fk.place, fk.supervisor, fk.driver, fk.stew, fk.channel].map(function (k) { return 'plan.f.' + k; })) ? 'Please fill in the boxes marked in red.' : ''; } },
+      { label: 'Who may ride', next: 'Send to the Principal', html: function () {
+        return '<h2>Who may ride</h2><div class="card"><ul class="ticks2">' + B.crew.riders.map(function (r) {
+          return '<li><button data-act="planRider" data-arg="' + r.id + '" aria-pressed="' + (P.riders.indexOf(r.id) >= 0) + '"><span class="box"></span><span><b>' + esc(r.name) + '</b><br><span class="small">' + esc(r.type) + '</span></span></button></li>'; }).join('') +
+          '</ul></div><p class="small">New riders can also be added on the day from Today.</p>';
+      }, send: function () { send('plan', { f: P.f, riders: P.riders }, 'Sending to the Principal').then(function () { delete D.plan; saveDraft(); closeFlow(); boot(); toast('Sent to the Principal for approval.'); }, function (e) { toast(e.message, 6000); }); } }];
+    }
+  };
+
+  /* ---- a site check ---- */
+  FLOWS.site = {
+    title: 'Site check',
+    steps: function () {
+      var S = D.site = D.site || { f: {}, ticks: {}, hazards: [], extra: [{}, {}, {}] }, fk = FK.A8, A8 = form('A8');
+      if (!S.f[fk.date]) S.f[fk.date] = ymd();
+      var tb = A8.blocks.filter(function (b) { return b.t === 'table'; })[0], g = grid('A8');
+      return [{ label: 'Place and checks', html: function () {
+        var ticks = A8.blocks.filter(function (b) { return b.t === 'ticks'; })[0].items;
+        return '<h2>The place</h2><p>' + esc(A8.blocks[0].text) + '</p><div class="fields">' + fieldHtml(fieldOf('A8', fk.place), 'site.f.' + fk.place) + fieldHtml(fieldOf('A8', fk.date), 'site.f.' + fk.date) + '</div>' +
+          '<div class="card"><h3>Checks</h3><ul class="ticks2">' + ticks.map(function (t, i) { return '<li><button data-act="siteTick" data-arg="' + i + '" aria-pressed="' + !!S.ticks[i] + '"><span class="box"></span><span>' + esc(t) + '</span></button></li>'; }).join('') + '</ul></div>';
+      }, check: function () { return missing(['site.f.' + fk.place]) ? 'Give the place.' : ''; } },
+      { label: 'Hazards', html: function () {
+        return '<h2>SABAI\'s site hazards</h2><p>' + esc(A8.blocks.filter(function (b) { return b.t === 'p'; })[1].text.replace(/^Circle whether/, 'Say whether')) + '</p>' + tb.rows.map(function (r, i) {
+          return '<div class="card fld" data-for="site.hazards.' + i + '"><h3>' + esc(r[0]) + '</h3><p class="small">' + esc(tb.head[1]) + ': ' + esc(r[1]) + '<br>' + esc(tb.head[2]) + ': ' + esc(r[2]) + '</p><div class="chips">' +
+            ['Yes', 'No'].map(function (o) { return '<button class="chip" data-chip="site.hazards.' + i + '" data-v="' + o + '" aria-pressed="' + (S.hazards[i] === o) + '">' + esc(tb.head[3].replace('?', '')) + ': ' + o + '</button>'; }).join('') + '</div></div>';
+        }).join('') + '<h3 class="sub">' + esc(g.head[0]) + '</h3>' + S.extra.map(function (row, i) {
+          return '<div class="fields">' + g.keys.map(function (k, j) { return fieldHtml({ type: 'text', label: g.head[j] }, 'site.extra.' + i + '.' + k); }).join('') + '</div>';
+        }).join('');
+      }, check: function () { return missing(tb.rows.map(function (r, i) { return 'site.hazards.' + i; })) ? 'Answer Yes or No for every hazard.' : ''; } },
+      { label: 'Sketch and sign', next: 'Send to the Principal', html: function () {
+        return '<h2>Score, sketch and signature</h2>' + fieldHtml(fieldOf('A8', fk.score), 'site.f.' + fk.score) +
+          '<div class="sigblock"><h4>Sketch of the operating area</h4><div class="sighead"><span>The anchorage, the boundaries, hazards and the chase boat\'s position.</span><button type="button" class="linkbtn" data-clear="sketch">Clear</button></div><div class="sigpad" data-pad="sketch" style="height:360px"><span class="hint">Draw with your finger</span><canvas aria-label="Sketch"></canvas></div></div>' +
+          sigBlock('ci', 'Chief Instructor', B.me.name);
+      }, send: function () {
+        if (missing(['site.f.' + fk.score])) return toast('Give the highest score with controls.');
+        var sg = sigData('ci'); if (!sg) return toast('Please sign in the box with your finger.');
+        var sk = PADS.sketch && PADS.sketch.length() > 25 ? PADS.sketch.data() : '';
+        send('site', { f: S.f, ticks: S.ticks, hazards: S.hazards, extra: S.extra, sketch: sk, sig: sg }, 'Sending to the Principal').then(function () { delete D.site; saveDraft(); closeFlow(); boot(); toast('Sent to the Principal for approval.'); }, function (e) { toast(e.message, 6000); });
+      } }];
+    }
+  };
+
+  /* ---- an accident, incident or near miss (the Principal) ---- */
+  FLOWS.accident = {
+    title: 'Accident, incident or near miss',
+    steps: function () {
+      var A = D.acc = D.acc || { f: {} }, bl = form('A11').blocks;
+      return [{ label: 'The record', html: function () {
+        var h = '<h2>Accident, incident or near miss</h2><p>' + esc(bl[0].text) + '</p>';
+        bl.forEach(function (b) { if (b.t === 'h') h += '<h3 class="sub">' + esc(b.text) + '</h3>'; if (b.t === 'fields') h += fieldsHtml(b.items, 'acc.f'); });
+        return h + '<div class="card"><h3>Copy of HS 002 01</h3><p class="small">A photo or PDF of the incident report, filed with this record.</p><div class="row" style="justify-content:flex-start"><label class="btn ghost filebtn">' + (A.hs ? 'Replace the copy' : 'Add the copy') + '<input type="file" accept="image/*,application/pdf" data-photo="hs"></label>' + (A.hs ? '<span class="pill ok">Added</span>' : '') + '</div></div>';
+      }, check: function () { return missing(['acc.f.' + FK.A11.when]) ? 'Give the date and time.' : ''; } },
+      { label: 'Sign', next: 'Save', html: function () { return '<h2>Principal\'s signature</h2>' + sigBlock('p', fieldOf('A11', FK.A11.sig).label, B.me.name); },
+        send: function () { var s = sigData('p'); if (!s) return toast('Please sign in the box with your finger.'); send('accident', { f: A.f, hs: A.hs, sig: s }, 'Saving').then(function () { delete D.acc; saveDraft(); closeFlow(); boot(); toast('Saved and filed.'); }, function (e) { toast(e.message, 6000); }); } }];
+    }
+  };
+
+  /* ---------------------------------------------------------------- sheets (pop-ups) */
+  function sheet(html, onOpen) {
+    closeSheet();
+    var s = document.createElement('div'); s.className = 'sheet'; s.id = 'sheet';
+    s.innerHTML = '<div class="panel" role="dialog" aria-modal="true"><div class="grab"></div><button class="x" data-act="closeSheet">Close</button>' + html + '</div>';
+    document.body.appendChild(s);
+    s.addEventListener('click', function (e) { if (e.target === s) closeSheet(); });
+    each('.sigpad', function (el) { PADS[el.getAttribute('data-pad')] = sigPad(el); }, s);
+    if (onOpen) onOpen(s);
+  }
+  function closeSheet() { var s = $('sheet'); if (s) s.remove(); }
+  function facts(rows) { return '<dl class="facts">' + rows.filter(function (r) { return r[1] !== undefined && r[1] !== null && r[1] !== ''; }).map(function (r) { return '<dt>' + esc(nf(r[0])) + '</dt><dd>' + r[1] + '</dd>'; }).join('') + '</dl>'; }
+  function showVal(f, v) { return esc(Array.isArray(v) ? v.join(', ') : f && f.type === 'date' ? nice(v) : v && typeof v === 'object' ? [v.level, v.time].filter(String).join(' at ') : v); }
+  function riderSummary(v) {
+    var a4 = v.a4, hb = form('A4').blocks.filter(function (b) { return b.t === 'health'; })[0];
+    var h = facts(fieldsOf('A4').map(function (f) { return [lab(f), showVal(f, a4.f[f.k])]; }));
+    var yes = hb.items.filter(function (i) { return a4.health[i.k] && a4.health[i.k].yn === 'Yes'; });
+    h += '<h3 class="sub">Health</h3>' + (yes.length ? facts(yes.map(function (i) { return [i.label, 'Yes. ' + esc(a4.health[i.k].details || '')]; })) : '<p><span class="pill ok">No to every question</span></p>');
+    h += '<p class="small">Initialled: the rules ' + esc(nice(a4.initials.rules.at)) + ', the risks ' + esc(nice(a4.initials.risks.at)) + '.</p>';
+    h += '<p class="small">Signed by ' + esc(a4.sig.name) + ', ' + esc(nice(a4.sig.at)) + '</p><img class="sigimg" src="' + a4.sig.img + '" alt="">';
+    if (v.a5) h += '<h3 class="sub">Parent or guardian</h3>' + facts(fieldsOf('A5').map(function (f) { return [lab(f), showVal(f, v.a5.f[f.k])]; })) +
+      '<p class="small">Signed by ' + esc(v.a5.sig.name) + ', ' + esc(nice(v.a5.sig.at)) + '</p><img class="sigimg" src="' + v.a5.sig.img + '" alt="">';
+    return h;
+  }
+
+  /* ---------------------------------------------------------------- actions */
+  var ACT = {
+    part: function (a) { V.part = a; V.rsub = ''; try { history.replaceState(null, '', location.pathname + location.search + '#' + a); } catch (e) {} render(); window.scrollTo(0, 0); },
+    flow: function (a, el) { openFlow(a, { person: el.getAttribute('data-person') }); },
+    closeFlow: function () { closeFlow(); boot(); },
+    next: function () { goNext(); },
+    prev: function () { V.step = Math.max(0, V.step - 1); render(); window.scrollTo(0, 0); },
+    goto: function (a) { V.step = +a; render(); window.scrollTo(0, 0); },
+    hint: function () { store('hintDone', 1); render(); },
+    view: function (a) { var v = document.createElement('div'); v.className = 'viewer'; v.innerHTML = '<button class="close">Close</button><img src="' + esc(a) + '" alt="">'; v.addEventListener('click', function () { v.remove(); }); document.body.appendChild(v); },
+    initial: function (a) { set('rider.initials.' + a, stamp()); render(); },
+    uninitial: function (a) { delete D.rider.initials[a]; saveDraft(); render(); },
+    initSec: function (a) {
+      var s = T.sections.filter(function (x) { return x.key === a; })[0];
+      send('initial', { section: s.key, hash: s.hash }, 'Saving').then(function (r) { if (r.role) B.role = r.role; else B.role.read.push(s.key); render(); toast('Initialled.'); }, function (e) { toast(e.message, 6000); });
+    },
+    rsub: function (a) { V.rsub = a; render(); },
+    closeSheet: closeSheet,
+    pdf: function (a) {
+      var done = busy('Opening the PDF');
+      api('pdf', { ref: a }).then(function (r) {
+        done();
+        var bin = atob(r.data), bytes = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+        var type = bin.slice(0, 4) === '%PDF' ? 'application/pdf' : 'text/html';   // the Mac preview stands HTML in for the PDF
+        window.open(URL.createObjectURL(new Blob([bytes], { type: type })), '_blank');
+      }, function (e) { done(); toast(e.message, 6000); });
+    },
+    briefSign: function () { briefSheet(B.riding.session.ref, B.me.id, B.me.name, !!V.as); },
+    briefSignFor: function (a, el) { briefSheet(el.getAttribute('data-ref'), a, el.getAttribute('data-name'), true); },
+    feedback: function () { feedbackSheet(); },
+    handOver: function (a, el) { handOver(a, el.getAttribute('data-name')); },
+    handBack: function () { drop('draft-as-' + (V.as && V.as.id)); V.as = null; V.flow = null; V.part = 'today'; start(); },
+    newRider: function (a, el) { newRiderSheet(el.getAttribute('data-ref')); },
+    witness: function (a) { witnessSheet(a); },
+    sesTick: function (a, el) { var on = el.getAttribute('aria-pressed') !== 'true'; el.setAttribute('aria-pressed', on); var t = {}; t[a] = on; saveSession(el.getAttribute('data-ref'), { ticks: t }); },
+    briefTick: function (a, el) { var on = el.getAttribute('aria-pressed') !== 'true'; el.setAttribute('aria-pressed', on); var t = {}; t[a] = on; saveSession(el.getAttribute('data-ref'), { brief: t }); },
+    out: function (a, el) {
+      var r = $('mvR').value, p = $('mvP').value;
+      if (!r) return toast('Choose the rider.');
+      if (p && p === r) return toast('The passenger is someone else.');
+      api('move', { ref: el.getAttribute('data-ref'), op: 'out', rider: r, passenger: p }).then(function (x) { replaceSession(x.session); toast('Out at ' + hm() + '. Tell the bridge.'); }, function (e) { toast(e.message, 6000); });
+    },
+    backIn: function (a, el) {
+      api('move', { ref: el.getAttribute('data-ref'), op: 'back', fuel: a }).then(function (x) { replaceSession(x.session); toast('Back at ' + hm() + ', fuel ' + a + '. Tell the bridge.'); }, function (e) { toast(e.message, 6000); });
+    },
+    course: function (a, el) { courseSheet(el); },
+    refresher: function (a, el) { refresherSheet(el); },
+    close: function (a, el) { closeSessionSheet(el.getAttribute('data-ref')); },
+    approveStaff: function (a) { api('approveStaff', { person: a }).then(function (r) { B.crew = r.crew; render(); toast('Approved for the role. Your initials are on the sign sheet.'); }, function (e) { toast(e.message, 6000); }); },
+    training: function () { trainingSheet(); },
+    indTick: function (a, el) { var I = D.induct; I.ticks[a] = !I.ticks[a]; saveDraft(); el.setAttribute('aria-pressed', !!I.ticks[a]); },
+    planRider: function (a, el) { var P = D.plan, i = P.riders.indexOf(a); if (i < 0) P.riders.push(a); else P.riders.splice(i, 1); saveDraft(); el.setAttribute('aria-pressed', i < 0); },
+    siteTick: function (a, el) { var S = D.site; S.ticks[a] = !S.ticks[a]; saveDraft(); el.setAttribute('aria-pressed', !!S.ticks[a]); },
+    openSign: function (a, el) { signSheet(a, el.getAttribute('data-kind')); },
+    signManual: function () { signManualSheet(); },
+    complaint: function (a) { complaintSheet(a); },
+    addPerson: function () { personSheet(); },
+    link: function (a) { var p = B.records.people.filter(function (x) { return x.id === a; })[0]; linkSheet(p, p.link); },
+    newKey: function (a) { if (!confirm('Make a new link? The old one stops working at once.')) return; api('person', { op: 'newKey', id: a }).then(function (r) { B.records = r.records; var p = B.records.people.filter(function (x) { return x.id === a; })[0]; linkSheet(p, r.link); }, function (e) { toast(e.message); }); },
+    copy: function (a) { (navigator.clipboard ? navigator.clipboard.writeText(a) : Promise.reject()).then(function () { toast('Link copied.'); }, function () { prompt('Copy the link:', a); }); },
+    share: function (a, el) { if (navigator.share) navigator.share({ title: 'SABAI jet ski', text: el.getAttribute('data-text'), url: a }).catch(function () {}); else ACT.copy(a); },
+    removeTests: function () { if (!confirm('Remove every TEST record, made-up person and their files?')) return; send('removeTests', {}, 'Removing test records').then(function (r) { B.records = r.records; render(); toast(r.removed + ' removed.'); }, function (e) { toast(e.message); }); },
+    toggle: function (a, el) { el.setAttribute('aria-pressed', el.getAttribute('aria-pressed') !== 'true'); }
+  };
+  function replaceSession(s) { B.todayPart.sessions = B.todayPart.sessions.map(function (x) { return x.ref === s.ref ? s : x; }); render(); }
+  var saveTimer = null, pending = {};
+  function saveSession(ref, patch) {   // checks and boxes on Today save as they are tapped
+    var p = pending[ref] = pending[ref] || { f: {}, ticks: {}, brief: {} };
+    ['f', 'ticks', 'brief'].forEach(function (k) { Object.assign(p[k], patch[k] || {}); });
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () {
+      pending[ref] = null;
+      api('sessionSave', { ref: ref, f: p.f, ticks: p.ticks, brief: Object.keys(p.brief).length ? p.brief : null }).then(function (x) { replaceSession(x.session); }, function (e) { toast(e.message, 6000); });
+    }, 600);
+  }
+
+  function briefSheet(session, person, name, onIpad) {
+    var g = grid('A6'), stmt = g.head[2].replace(/:\s*signature$/, '').replace(/^"|"$/g, '');
+    D.brief = { as: 'Rider' };
+    sheet('<h2>' + esc(stmt) + '</h2><p>' + esc(onIpad ? name + ' signs on this iPad.' : 'Sign once the instructor has given you the briefing at the swim platform.') + '</p>' +
+      '<details><summary class="linkbtn">What the briefing covered</summary><ol>' + T.master.briefing.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ol>' + handSignals() + '</details>' +
+      '<div class="fld" style="margin-top:14px"><span class="lab">' + esc(g.head[1]) + '</span><div class="chips">' + ['Rider', 'Passenger'].map(function (o) { return '<button class="chip" data-chip="brief.as" data-v="' + o + '" aria-pressed="' + (o === 'Rider') + '">' + o + '</button>'; }).join('') + '</div></div>' +
+      sigBlock('brief', 'Briefing', name) + '<button class="btn primary wide" id="bsGo">Sign</button>', function () {
+      $('bsGo').onclick = function () {
+        var d = sigData('brief'); if (!d) return toast('Please sign in the box with your finger.');
+        send('briefSign', { session: session, person: person, as: D.brief.as, sig: d, name: name }, 'Saving').then(function () { closeSheet(); toast('Thank you. Signed.'); boot(); }, function (e) { toast(e.message, 6000); });
+      };
+    });
+  }
+  function feedbackSheet() {
+    var A13 = form('A13'), fk = FK.A13, F = D.fb = D.fb || { f: {}, text: ['', ''] };
+    F.f[fk.name] = F.f[fk.name] || B.me.name; F.f[fk.date] = ymd();
+    var heads = A13.blocks.filter(function (b) { return b.t === 'h'; });
+    sheet('<h2>' + esc(heads[0].text) + '</h2><p>' + esc(A13.blocks[0].text.replace(/ Hand this form to the instructor or the Captain\./, '')) + '</p><div class="fields">' + fieldHtml(fieldOf('A13', fk.name), 'fb.f.' + fk.name) + fieldHtml(fieldOf('A13', fk.course), 'fb.f.' + fk.course) + '</div>' +
+      '<textarea class="inp" data-path="fb.text.0" aria-label="' + esc(heads[0].text) + '">' + esc(F.text[0]) + '</textarea><h3 class="sub">' + esc(heads[1].text) + '</h3><p class="small">' + esc(A13.blocks.filter(function (b) { return b.t === 'p'; })[1].text) + '</p>' +
+      '<textarea class="inp" data-path="fb.text.1" aria-label="' + esc(heads[1].text) + '">' + esc(F.text[1]) + '</textarea><div class="btns"><button class="btn primary wide" id="fbGo">Send</button></div>', function () {
+      $('fbGo').onclick = function () { send('feedback', { f: F.f, text: F.text }, 'Sending').then(function () { delete D.fb; saveDraft(); closeSheet(); toast('Thank you.'); boot(); }, function (e) { toast(e.message, 6000); }); };
+    });
+  }
+  function newRiderSheet(ref) {
+    var tf = fieldOf('A4', FK.A4.type), N = D.nr = { name: '', type: '', email: '' };
+    sheet('<h2>New rider on this iPad</h2><p>Their name and rider type. Then hand the iPad over: it shows only their form, and goes back to you when they finish.</p>' +
+      fieldHtml({ type: 'text', label: fieldOf('A4', FK.A4.name).label }, 'nr.name') + fieldHtml({ type: 'choice', name: tf.name, opts: tf.opts, label: '' }, 'nr.type') +
+      fieldHtml({ type: 'email', label: fieldOf('A4', FK.A4.email).label }, 'nr.email') + '<button class="btn primary wide" id="nrGo">Hand the iPad over</button>', function () {
+      $('nrGo').onclick = function () {
+        if (!N.name.trim() || !N.type) return toast('Give the name and the rider type.');
+        api('startRider', { ref: ref, name: N.name, type: N.type, email: N.email }).then(function (r) { closeSheet(); handOver(r.person.id, r.person.name); }, function (e) { toast(e.message, 6000); });
+      };
+    });
+  }
+  function handOver(id, name) {   // the yacht's iPad shows only this rider until they finish
+    V.as = { id: id, name: name }; V.flow = null; D = load(draftKey()) || {}; V.part = 'riding';
+    app.innerHTML = '<div class="loading">' + logo() + '<div class="spin"></div><span>Opening ' + esc(name) + '\'s form</span></div>';
+    boot().then(function () { if (B.riding && B.riding.state === 'form') openFlow('rider'); });
+  }
+  function witnessSheet(ref) {
+    var done = busy('Opening the form');
+    api('witnessView', { ref: ref }).then(function (v) {
+      done();
+      sheet('<h2>' + esc(v.a4.f[FK.A4.name]) + '</h2><p>Go through the answers with the rider at the swim platform, then sign as the witness.</p>' + riderSummary(v) +
+        sigBlock('w', form('A4').blocks.filter(function (b) { return b.t === 'sign'; })[0].roles[1], B.me.name) + '<button class="btn primary wide" id="wGo">Sign as witness</button>', function () {
+        $('wGo').onclick = function () {
+          var d = sigData('w'); if (!d) return toast('Please sign in the box with your finger.');
+          send('witness', { ref: ref, sig: d }, 'Saving').then(function () { closeSheet(); toast('Witnessed. It goes to the Principal to sign.'); boot(); }, function (e) { toast(e.message, 6000); });
+        };
+      });
+    }, function (e) { done(); toast(e.message, 6000); });
+  }
+  function courseSheet(el) {
+    var id = el.getAttribute('data-arg'), ref = el.getAttribute('data-ref'), name = el.getAttribute('data-name'), type = el.getAttribute('data-type'), hasPhoto = !!el.getAttribute('data-photo');
+    var C = D.course = { photo: '', until: '' }, charter = /charter/.test(type), per = T.master.periods.filter(function (p) { return p.charter; })[0];
+    sheet('<h2>Course complete: ' + esc(name) + '</h2><p>The certificate goes to the Principal to sign, with the rider\'s photo. The rider pass is emailed to the rider once it is signed.</p><p class="small">' + esc(T.master.photoRule) + '</p>' +
+      '<div class="row" style="justify-content:flex-start">' + (hasPhoto ? '<span class="pill ok">Photo taken by the rider</span>' : '') + '<label class="btn ghost filebtn">' + (hasPhoto ? 'Take a new photo' : 'Take the photo') + '<input type="file" accept="image/*" capture="environment" data-photo="course"></label><span id="cPh"></span></div>' +
+      (charter ? '<div style="margin-top:14px">' + fieldHtml({ type: 'date', label: 'Last day of the charter (' + per.who.toLowerCase() + ': ' + per.text.toLowerCase() + ')' }, 'course.until') + '</div>' : '') +
+      '<div class="btns"><button class="btn primary wide" id="cGo">Send to the Principal</button></div>', function () {
+      $('cGo').onclick = function () {
+        if (!hasPhoto && !C.photo) return toast('Take the rider\'s photo for the certificate first.');
+        api('course', { ref: ref, person: id, photo: C.photo, validUntil: C.until }).then(function (x) { closeSheet(); replaceSession(x.session); toast('Sent to the Principal to sign.'); }, function (e) { toast(e.message, 6000); });
+      };
+    });
+  }
+  function refresherSheet(el) {
+    var id = el.getAttribute('data-arg'), ref = el.getAttribute('data-ref'), name = el.getAttribute('data-name'), R = D.rf = { until: '' };
+    sheet('<h2>Refresher: ' + esc(name) + '</h2><p>' + esc(form('A10').blocks[0].text) + '</p><ul class="ticks2"><li><button data-act="toggle" id="rfP" aria-pressed="false"><span class="box"></span><span>' + esc(grid('A10').head[5]) + '</span></button></li></ul>' +
+      (/charter/.test(el.getAttribute('data-type')) ? fieldHtml({ type: 'date', label: 'Last day of the charter' }, 'rf.until') : '') + '<div class="btns"><button class="btn primary wide" id="rfGo">Save</button></div>', function () {
+      $('rfGo').onclick = function () {
+        var passed = $('rfP').getAttribute('aria-pressed') === 'true';
+        api('refresher', { ref: ref, person: id, passed: passed, validUntil: R.until }).then(function (x) { closeSheet(); replaceSession(x.session); toast('Refresher saved. A new period runs from today.'); }, function (e) { toast(e.message, 6000); });
+      };
+    });
+  }
+  function closeSessionSheet(ref) {
+    var fk = FK.A7; D.cl = D.cl || { f: {} };
+    sheet('<h2>Close the session</h2><p>After recovery, flushing and the keys back to the bridge.</p>' + fieldHtml(fieldOf('A7', fk.defects), 'cl.f.' + fk.defects) + fieldHtml(fieldOf('A7', fk.fuel_in), 'cl.f.' + fk.fuel_in) +
+      fieldHtml(fieldOf('A7', fk.ended), 'cl.f.' + fk.ended) + sigBlock('sup', fieldOf('A7', fk.sig).label, B.me.name) + '<button class="btn primary wide" id="clGo">Close and file the session</button>', function () {
+      $('clGo').onclick = function () {
+        var d = sigData('sup'); if (!d) return toast('Please sign in the box with your finger.');
+        send('close', { ref: ref, f: D.cl.f, sig: d }, 'Filing the session').then(function () { closeSheet(); delete D.cl; saveDraft(); toast('Session closed. The session log and the briefing record are filed.', 5000); boot(); }, function (e) { toast(e.message, 6000); });
+      };
+    });
+  }
+  function trainingSheet() {
+    var g = grid('A12'), Tn = D.tr = D.tr || {};
+    Tn[g.keys[0]] = Tn[g.keys[0]] || ymd(); Tn[g.keys[4]] = Tn[g.keys[4]] || B.me.name;
+    sheet('<h2>Staff briefing, drill or teaching monitored</h2>' + g.head.map(function (hd, i) { return fieldHtml({ type: i === 0 ? 'date' : i === 3 ? 'long' : 'text', label: hd }, 'tr.' + g.keys[i]); }).join('') +
+      '<button class="btn primary wide" id="trGo">Save</button>', function () {
+      $('trGo').onclick = function () { api('training', { f: Tn }).then(function (r) { delete D.tr; saveDraft(); B.crew = r.crew; closeSheet(); render(); toast('Saved.'); }, function (e) { toast(e.message, 6000); }); };
+    });
+  }
+  function signManualSheet() {
+    var ro = B.role, g = grid('A3'), bl = form('A1').blocks, decl = bl[bl.map(function (b) { return b.t === 'h' && b.text === 'Declaration'; }).indexOf(true) + 1];
+    D.sm = D.sm || { q: '' };
+    sheet('<h2>Sign for the manual</h2><p>' + esc(form('A3').blocks[0].text) + '</p>' + facts([[g.head[0], esc(B.me.name)], [g.head[1], esc(B.me.roles.join(', '))], [g.head[3], esc(T.issue + ', ' + T.date)],
+      [g.head[4], ro.induction ? esc(nice(ro.induction.date)) : '']]) + (ro.a1 ? '<h3 class="sub">Declaration</h3><div class="statement"><p>' + esc(decl.text) + '</p></div>' : fieldHtml({ type: 'text', label: g.head[2] }, 'sm.q')) +
+      sigBlock('sm', g.head[5], B.me.name) + '<button class="btn primary wide" id="smGo">Sign</button>', function () {
+      $('smGo').onclick = function () {
+        var d = sigData('sm'); if (!d) return toast('Please sign in the box with your finger.');
+        send('signManual', { sig: d, qualification: D.sm.q }, 'Saving').then(function () { closeSheet(); delete D.sm; saveDraft(); toast('Signed. The Chief Instructor approves you for your role next.', 5000); boot(); }, function (e) { toast(e.message, 6000); });
+      };
+    });
+  }
+  function signSheet(ref, kind) {
+    if (kind === 'undertaking') {
+      var bl = form('A1').blocks, i = bl.map(function (b) { return b.t === 'h' && /undertaking/i.test(b.text); }).indexOf(true);
+      return sheet('<h2>' + esc(bl[i].text) + '</h2><div class="statement"><p>' + esc(bl[i + 1].text) + '</p></div>' + sigBlock('u', has('Principal') ? 'Principal' : has('Alternate Principal') ? 'Alternate Principal' : 'Captain (Master)', B.me.name) +
+        '<button class="btn primary wide" id="sGo">Sign</button>', function () { $('sGo').onclick = function () { var s = sigData('u'); if (!s) return toast('Please sign in the box with your finger.'); doSign(ref, { sig: s }); }; });
+    }
+    var done = busy('Opening');
+    api('signView', { ref: ref }).then(function (v) {
+      done();
+      var h = '', btn = 'Sign', extra = function () { return {}; };
+      if (kind === 'rider') {
+        h = '<h2>Rider form: ' + esc(v.a4.f[FK.A4.name]) + '</h2>' + riderSummary(v) + '<p class="small" style="margin-top:12px">Witnessed by ' + esc(v.witness.name) + ', ' + esc(nice(v.witness.at)) + '</p><img class="sigimg" src="' + v.witness.img + '" alt="">' +
+          '<div class="note info">When you sign, the rider is emailed a copy. It says "Health answers given and kept on file" in place of the answers.</div>' + sigBlock('s', 'Principal (confirmed)', B.me.name);
+      } else if (kind === 'cert') {
+        var g = grid('A9');
+        h = '<h2>Certificate: ' + esc(v.f[g.keys[1]]) + '</h2><div class="row" style="justify-content:flex-start;align-items:flex-start"><img class="photo" src="' + v.photo + '" alt=""><div style="flex:1;min-width:220px">' + facts([[g.head[2], esc(v.f[g.keys[2]])], [g.head[3], esc(nice(v.f[g.keys[3]]))], [g.head[4], esc(v.f[g.keys[4]])], [g.head[5], esc(nice(v.f[g.keys[5]]))]]) + '</div></div>' +
+          fieldHtml({ type: 'text', label: g.head[0] + ' (from the printed RYA certificate)' }, 'cert.no') + '<ul class="ticks2"><li><button id="regB" aria-pressed="false" data-act="toggle"><span class="box"></span><span>' + esc(g.head[7]) + '</span></button></li></ul>' +
+          '<div class="note info">When you sign, the rider pass is emailed to the rider.</div>' + sigBlock('s', 'Principal', B.me.name);
+        extra = function () { return { certNo: get('cert.no'), registered: $('regB').getAttribute('aria-pressed') === 'true' }; };
+      } else if (kind === 'session') {
+        var fk = FK.A7;
+        h = '<h2>Session on ' + esc(nice(v.f[fk.date])) + '</h2>' + facts(fieldsOf('A7').filter(function (f) { return v.f[f.k]; }).map(function (f) { return [lab(f), showVal(f, v.f[f.k])]; })) + '<p><b>Who may ride:</b> ' + esc(v.riders.join(', ') || 'none named yet') + '</p>';
+        btn = 'Approve the session';
+      } else if (kind === 'site') {
+        var tb = form('A8').blocks.filter(function (b) { return b.t === 'table'; })[0];
+        h = '<h2>Site check: ' + esc(v.f[FK.A8.place]) + '</h2>' + facts(fieldsOf('A8').filter(function (f) { return v.f[f.k]; }).map(function (f) { return [lab(f), showVal(f, v.f[f.k])]; })) +
+          '<div class="tw"><table class="tbl"><tr>' + tb.head.map(function (x) { return '<th>' + esc(x) + '</th>'; }).join('') + '</tr>' + tb.rows.map(function (r, i) { return '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td><td>' + esc(r[2]) + '</td><td><b>' + esc(v.hazards[i]) + '</b></td></tr>'; }).join('') + '</table></div>' +
+          (v.extra.length ? facts(v.extra.map(function (x) { var ks = Object.keys(x); return [x[ks[0]], esc(x[ks[1]] + ': ' + x[ks[2]])]; })) : '') + (v.sketch ? '<img src="' + v.sketch + '" style="max-height:260px;background:#fff;border-radius:12px;margin:10px 0" alt="">' : '') + sigBlock('s', "Principal's approval", B.me.name);
+        btn = 'Approve';
+      }
+      sheet(h + '<button class="btn primary wide" id="sGo">' + btn + '</button>', function () {
+        $('sGo').onclick = function () {
+          var sig = kind === 'session' ? null : sigData('s');
+          if (kind !== 'session' && !sig) return toast('Please sign in the box with your finger.');
+          if (kind === 'cert' && !String(get('cert.no') || '').trim()) { missing(['cert.no']); return toast('Type the number of the printed RYA certificate.'); }
+          doSign(ref, Object.assign({ sig: sig }, extra()));
+        };
+      });
+    }, function (e) { done(); toast(e.message, 6000); });
+  }
+  function doSign(ref, a) {
+    a.ref = ref;
+    send('sign', a, 'Signing').then(function (r) { closeSheet(); delete D.cert; saveDraft(); B.sign = r.sign; toast('Signed and filed.'); boot(); }, function (e) { toast(e.message, 6000); });
+  }
+  function complaintSheet(ref) {
+    var c = B.records.open.filter(function (x) { return x.ref === ref; })[0], fk = FK.A13;
+    sheet('<h2>Complaint</h2><div class="statement"><p>' + esc(c.text[1]) + '</p></div>' + fieldHtml(fieldOf('A13', fk.outcome), 'cp.outcome') + '<button class="btn primary wide" id="cpGo">Save</button>', function () {
+      $('cpGo').onclick = function () { api('complaintDone', { ref: ref, outcome: get('cp.outcome') }).then(function (r) { B.records = r.records; closeSheet(); render(); }, function (e) { toast(e.message, 6000); }); };
+    });
+  }
+  function personSheet() {
+    var tf = fieldOf('A4', FK.A4.type), P = D.np = { name: '', email: '', type: '', roles: [], charterEnds: '' };
+    sheet('<h2>Add a person</h2><p>Each person gets their own link. Their page shows only what applies to them.</p><div class="fields">' + fieldHtml({ type: 'text', label: 'Name' }, 'np.name') + fieldHtml({ type: 'email', label: 'Email' }, 'np.email') + '</div>' +
+      fieldHtml({ type: 'choice', name: tf.name, opts: tf.opts }, 'np.type') + fieldHtml({ type: 'date', label: 'Last day of the charter (charter guests)' }, 'np.charterEnds') +
+      fieldHtml({ type: 'choice', name: 'Jet ski roles (crew only)', opts: T.roles, multi: true }, 'np.roles') + '<label class="sw" style="margin:6px 0 18px"><input type="checkbox" id="npR" checked> Rides the jet ski</label>' +
+      '<button class="btn primary wide" id="npGo">Add and get the link</button>', function () {
+      $('npGo').onclick = function () {
+        P.rides = $('npR').checked;
+        api('person', { op: 'add', p: P }).then(function (r) { B.records = r.records; closeSheet(); render(); var p = B.records.people.filter(function (x) { return x.link === r.link; })[0] || { name: P.name, roles: P.roles, rides: P.rides }; linkSheet(p, r.link); }, function (e) { toast(e.message, 6000); });
+      };
+    });
+  }
+  function linkSheet(p, link) {
+    var text = 'SABAI jet ski: your own page' + (p.rides && !(p.roles || []).length ? ' for your rider form' : '') + '. Open it on your phone: ';
+    sheet('<h2>' + esc(p.name) + '\'s link</h2><p>Send it to ' + esc(p.name) + ' only. Anyone with the link sees their page.</p><div class="linktext">' + esc(link) + '</div><div class="btns"><button class="btn primary" data-act="copy" data-arg="' + esc(link) + '">Copy</button>' +
+      '<button class="btn ghost" data-act="share" data-arg="' + esc(link) + '" data-text="' + esc(text) + '">Share</button><a class="btn ghost" href="https://wa.me/?text=' + encodeURIComponent(text + link) + '" target="_blank" rel="noopener">WhatsApp</a></div>' +
+      (p.id ? '<p class="small" style="margin-top:18px">Link passed on to someone else? <button class="linkbtn" data-act="newKey" data-arg="' + p.id + '">Make a new link</button></p>' : ''));
+  }
+
+  /* ---------------------------------------------------------------- events */
+  function after() { each('.sigpad', function (el) { if (!el.closest('.sheet')) PADS[el.getAttribute('data-pad')] = sigPad(el); }); }
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-act],[data-chip],[data-now],[data-clear]');
+    if (!el || el.disabled) return;
+    if (el.hasAttribute('data-chip')) {
+      var p = el.getAttribute('data-chip'), v = el.getAttribute('data-v');
+      if (el.hasAttribute('data-multi')) { var arr = [].concat(get(p) || []), i = arr.indexOf(v); if (i < 0) arr.push(v); else arr.splice(i, 1); set(p, arr); el.setAttribute('aria-pressed', i < 0); }
+      else { set(p, v); each('[data-chip="' + p + '"]', function (c) { c.setAttribute('aria-pressed', c === el); }); }
+      var fl = el.closest('.fld'); if (fl) fl.classList.remove('bad');
+      if (el.getAttribute('data-save')) saveField(el.getAttribute('data-save'), p);
+      if (el.hasAttribute('data-rerender')) { var y = window.scrollY; render(); window.scrollTo(0, y); }
+      return;
+    }
+    if (el.hasAttribute('data-now')) {
+      var np = el.getAttribute('data-now'); set(np, hm()); var inp = document.querySelector('[data-path="' + np + '"]'); if (inp) inp.value = hm();
+      if (el.getAttribute('data-save')) saveField(el.getAttribute('data-save'), np);
+      return;
+    }
+    if (el.hasAttribute('data-clear')) { var pd = PADS[el.getAttribute('data-clear')]; if (pd) pd.clear(); return; }
+    var fn = ACT[el.getAttribute('data-act')];
+    if (fn && el.tagName !== 'INPUT') { e.preventDefault(); fn(el.getAttribute('data-arg'), el); }
+  });
+  function saveField(ref, path) {   // a Today box: send the whole field (fuel has a level and a time)
+    var k = path.split('.')[2], f = {};
+    f[k] = get('ses.' + ref + '.' + k);
+    if (f[k] && typeof f[k] === 'object' && !Array.isArray(f[k])) { var cur = B.todayPart.sessions.filter(function (s) { return s.ref === ref; })[0].f[k] || {}; f[k] = Object.assign({}, cur, f[k]); }
+    saveSession(ref, { f: f });
+  }
+  document.addEventListener('input', function (e) {
+    var el = e.target, p = el.getAttribute && el.getAttribute('data-path');
+    if (!p) return;
+    set(p, el.value);
+    var fl = el.closest('.fld'); if (fl) fl.classList.remove('bad');
+  });
+  document.addEventListener('change', function (e) {
+    var el = e.target;
+    if (el.getAttribute('data-path') && el.getAttribute('data-save')) saveField(el.getAttribute('data-save'), el.getAttribute('data-path'));
+    if (el.getAttribute('data-act') === 'testMode') {
+      api('setTest', { on: el.checked }).then(function (r) { B.records = r.records; B.test = r.records.test; render(); toast('Test mode ' + (B.test ? 'on' : 'off') + '.'); }, function (err) { toast(err.message); el.checked = !el.checked; });
+    }
+    var kind = el.getAttribute('data-photo');
+    if (kind && el.files && el.files[0]) photoPicked(kind, el.files[0]);
+  });
+  function photoPicked(kind, file) {
+    if (kind === 'hs' && file.type === 'application/pdf') {
+      if (file.size > 10 * 1024 * 1024) return toast('The copy is too large (10 MB at most).');
+      var fr = new FileReader(); fr.onload = function () { D.acc.hs = fr.result; saveDraft(); render(); }; fr.readAsDataURL(file); return;
+    }
+    shrink(file, kind === 'cert' || kind === 'hs' ? 1800 : 900).then(function (d) {
+      if (kind === 'me') return send('photo', V.as ? { photo: d, person: V.as.id } : { photo: d }, 'Saving your photo').then(function (r) { B.riding.photo = r.photo; render(); toast('Photo saved. It goes on your certificate.'); }, function (e) { toast(e.message, 6000); });
+      if (kind === 'cert') { D.details.files.push(d); saveDraft(); return render(); }
+      if (kind === 'course') { D.course.photo = d; var s = $('cPh'); if (s) s.innerHTML = '<span class="pill ok">Photo ready</span>'; return; }
+      if (kind === 'hs') { D.acc.hs = d; saveDraft(); return render(); }
+    }, function () { toast('That picture could not be read. Try another.'); });
+  }
+  function shrink(file, side) {
+    return new Promise(function (ok, no) {
+      var img = new Image(), url = URL.createObjectURL(file);
+      img.onload = function () {
+        var w = img.naturalWidth, h = img.naturalHeight, sc = Math.min(1, side / Math.max(w, h)), cv = document.createElement('canvas');
+        cv.width = Math.round(w * sc); cv.height = Math.round(h * sc);
+        var cx = cv.getContext('2d'); cx.fillStyle = '#fff'; cx.fillRect(0, 0, cv.width, cv.height); cx.drawImage(img, 0, 0, cv.width, cv.height);
+        URL.revokeObjectURL(url); ok(cv.toDataURL('image/jpeg', 0.82));
+      };
+      img.onerror = no; img.src = url;
+    });
+  }
+
+  start();
+})();
+</script>
+</body>
+</html>
